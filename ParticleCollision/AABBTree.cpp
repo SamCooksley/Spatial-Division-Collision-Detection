@@ -130,8 +130,8 @@ namespace AABBTree
 
 			const Rect &node = _node->m_rect;
 
-			const float volume1 = Rect::Combine(child1, node).Area() - child1.Area() - node.Area();
-			const float volume2 = Rect::Combine(child2, node).Area() - child2.Area() - node.Area();
+			const float volume1 = Rect::Union(child1, node).Area() - child1.Area() - node.Area();
+			const float volume2 = Rect::Union(child2, node).Area() - child2.Area() - node.Area();
 
 			if (volume1 < volume2)
 			{

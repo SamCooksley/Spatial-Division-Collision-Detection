@@ -2,128 +2,116 @@
 
 #include "CollisionManager.h"
 
-Polygon::Polygon(const Vector2 &_position, const Vector2 &_velocity) : Collider(ColliderType::POLYGON, _position, _velocity)
+Polygon::Polygon(const Vector2& _position, const Vector2& _velocity) : Collider(ColliderType::POLYGON, _position, _velocity)
 {
-  points = nullptr;
-  size = 0;
   GenerateRandom(10, 40, 5);
-
-	Range x = MinMaxOnAxis(Vector2(1, 0));
-	Range y = MinMaxOnAxis(Vector2(0, 1));
-	m_aabb.Set(x.minimum, y.minimum, x.maximum, y.maximum);
-}
-
-Polygon::~Polygon(void)
-{
-  Destroy();
-}
-
-void Polygon::Destroy(void)
-{
-  if (points != nullptr)
-  {
-    delete [] points;
-    points = nullptr;
-    size = 0;
-  }
 }
 
 void Polygon::GenerateRandom(float _minSize, float _maxSize, int _vertexCount)
 {
-  Destroy();
+  //allocate enough storage for the points.
+  m_points.resize(_vertexCount);
 
-  points = new Vector2[_vertexCount];
-  size = _vertexCount;
-  float angle = 0.0f;
-  float step = 360.0f / _vertexCount;
-  float total = 0.0f;
+  float curAngle = 0.f; 
+  float step = 360.f / _vertexCount; //angle differnce between vertices.
+  float averageDistance = 0.f;
 
-  for (int i = 0; i < size; i++)
+  //range of sizes.
+  int sizeDiff = static_cast<int>(_maxSize - _minSize);
+
+  //set the positions of each vertex.
+  for (size_t i = 0; i < m_points.size(); ++i)
   {
-    angle += step;
+    curAngle += step;
 
-    Vector2 dir = Vector2::AngleToVector(angle);
-    float size = _minSize + rand() % (int)(_maxSize - _minSize);
-    total += size;
-    points[i] = dir * size;
+    //get the direction of the point.
+    Vector2 dir = Vector2::AngleToVector(curAngle * DEG2RAD);
+    //get the distance of the point.
+    float size = _minSize + rand() % sizeDiff;
+    averageDistance += size;
+    
+    m_points[i] = dir * size;
   }
 
-  total /= size;
-  float area = PI * (total * total);
-  invMass = 1.0f / total;
+  //set the mass.
+  averageDistance /= m_points.size();
+  float area = PI * (averageDistance * averageDistance);
+  invMass = 1.f / averageDistance;
+
+  //update the aabb.
+  Range x = MinMaxOnAxis(Vector2(1, 0));
+  Range y = MinMaxOnAxis(Vector2(0, 1));
+  m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
-void Polygon::Draw(Renderer &_renderer)
+void Polygon::Draw(Renderer& _renderer)
 {
-  _renderer.SetRenderColour(0, 0, 0);
-  SDL_Point *SDLpoints = new SDL_Point[size + 1];
-  for (int i = 0; i < size; i++)
+  //exit if there is not even a line.
+  if (m_points.size() < 2) { return; }
+
+  //convert the local points to world space.
+  std::vector<SDL_Point> points(m_points.size() + 1);
+
+  for (size_t i = 0; i < m_points.size(); ++i)
   {
-    SDLpoints[i].x = points[i].x + position.x;
-    SDLpoints[i].y = points[i].y + position.y;
+    points[i].x = static_cast<int>(m_points[i].x + position.x);
+    points[i].y = static_cast<int>(m_points[i].y + position.y);
   }
 
-  SDLpoints[size].x = points[0].x + position.x;
-  SDLpoints[size].y = points[0].y + position.y;
+  //connect back to the first point.
+  points[m_points.size()].x = points[0].x;
+  points[m_points.size()].y = points[0].y;
 
-  SDL_RenderDrawLines(_renderer.Get(), SDLpoints, size + 1);
-
-	delete [] SDLpoints;
+  SDL_RenderDrawLines(_renderer.Get(), &points[0], points.size());
 }
 
-bool Polygon::CheckCollision(const Collider &_other, CollisionData &_data) const
+bool Polygon::CheckCollision(const Collider& _other, CollisionData& _data) const
 {
+  //go through the other collider with this object now specified.
   return _other.CheckCollision(*this, _data);
 }
 
-bool Polygon::CheckCollision(const Circle &_other, CollisionData &_data) const
+bool Polygon::CheckCollision(const Circle& _other, CollisionData& _data) const
 {
   return CollisionManager::CheckCollision(_other, *this, _data);
 }
 
-bool Polygon::CheckCollision(const Polygon &_other, CollisionData &_data) const
+bool Polygon::CheckCollision(const Polygon& _other, CollisionData& _data) const
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
 
-bool Polygon::CheckCollision(const Plane &_other, CollisionData &_data) const
+bool Polygon::CheckCollision(const Plane& _other, CollisionData& _data) const
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
 
-Vector2 Polygon::Min(void) const 
+Range Polygon::MinMaxOnAxis(const Vector2& _axis) const 
 {
-  return Vector2();
-}
-
-Vector2 Polygon::Max(void) const
-{
-  return  Vector2();
-}
-
-Range Polygon::MinMaxOnAxis(const Vector2 &_axis) const 
-{
-  float temp = Vector2::Dot(points[0], _axis);
-  Range range;
-  range.minimum = temp;
-  range.maximum = temp;
-
-  for (int i = 1; i < size; i++)
+  //if there is no points, the object does not exist.
+  if (m_points.empty()) 
   {
-    float test = Vector2::Dot(points[i], _axis);
-
-    if (test < range.minimum)
-    {
-      range.minimum = test;
-    }
-    if (test > range.maximum)
-    {
-      range.maximum = test;
-    }
+    throw std::out_of_range("No vertices set.");
   }
+
+  //project each point onto the axis. Set the min and
+  //max accordingly.
+
+  float tmp = Vector2::Dot(m_points[0], _axis);
+  Range range(tmp, tmp);
+
+  for (size_t i = 1; i < m_points.size(); i++)
+  {
+    tmp = Vector2::Dot(m_points[i], _axis);
+   
+    range.min = ::Min(tmp, range.min);
+    range.max = ::Max(tmp, range.max);
+  }
+
+  //add the position to move it to world space.
   float pos = Vector2::Dot(position, _axis);
-  range.minimum += pos;
-  range.maximum += pos;
+  range.min += pos;
+  range.max += pos;
 
   return range;
 }

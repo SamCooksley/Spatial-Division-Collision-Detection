@@ -70,13 +70,8 @@ bool CollisionManager::CollisionOnAxis(const Collider &_a, const Collider &_b, c
 {
   Range ar = _a.MinMaxOnAxis(_axis);
   Range br = _b.MinMaxOnAxis(_axis);
-
-  if (ar.Overlap(br))
-  {
-    return true;
-  }
-
-  return false;
+ 
+  return ar.Overlap(br);
 }
 
 bool CollisionManager::CheckCollision(const Circle &_a, const Circle &_b, CollisionData &_data)
@@ -109,17 +104,17 @@ bool CollisionManager::CheckCollision(const Circle &_a, const Circle &_b, Collis
 
 bool CollisionManager::CheckCollision(const Circle &_a, const Polygon &_b, CollisionData &_data)
 {
-  for (int i = 1; i < _b.size + 1; i++)
+  for (size_t i = 1; i < _b.m_points.size() + 1; i++)
   {
-    const Vector2 &v1 = _b.position + _b.points[i - 1];
-    const Vector2 &v2 = _b.position + _b.points[i % _b.size];
+    const Vector2 v1 = _b.position + _b.m_points[i - 1];
+    const Vector2 v2 = _b.position + _b.m_points[i % _b.m_points.size()];
 
     Vector2 edge = (v1 - v2).Normalized();
 
     float circlePos = Vector2::Dot(_a.position, edge);
     Range edgePos;
-    edgePos.minimum = Vector2::Dot(v1, edge);
-    edgePos.maximum = Vector2::Dot(v2, edge);
+    edgePos.min = Vector2::Dot(v1, edge);
+    edgePos.max = Vector2::Dot(v2, edge);
 
     edgePos.Sort();
 
@@ -212,12 +207,12 @@ bool CollisionManager::CheckCollision(const Polygon &_a, const Plane &_b, Collis
 {
   Range r = _a.MinMaxOnAxis(_b.normal);
   float pos = Vector2::Dot(_b.position, _b.normal);
-  if (r.minimum < pos)
+  if (r.min < pos)
   {
     _data.a = (Collider*)&_a;
     _data.b = (Collider*)&_b;
     _data.normal = _b.normal;
-    _data.overlap = pos - r.minimum;
+    _data.overlap = pos - r.min;
     return true;
   }
   return false;
@@ -227,9 +222,9 @@ bool CollisionManager::CheckEdgeCollisions(const Polygon &_a, const Polygon &_b,
 {
   bool collided = true;
 
-  for (int i = 1; i < _a.size + 1; i++)
+  for (size_t i = 1; i < _a.m_points.size() + 1; i++)
   {
-    Vector2 normal = (_a.points[i - 1] - _a.points[i % _a.size]).Normalized().Left();
+    Vector2 normal = (_a.m_points[i - 1] - _a.m_points[i % _a.m_points.size()]).Normalized().Left();
 
     Range lr = _a.MinMaxOnAxis(normal);
     Range rr = _b.MinMaxOnAxis(normal);

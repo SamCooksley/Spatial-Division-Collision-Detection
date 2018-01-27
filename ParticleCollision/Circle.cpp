@@ -6,20 +6,20 @@
 Circle::Circle(const Vector2 &_position, const Vector2 &_velocity, float _radius) : Collider(ColliderType::CIRCLE, _position, _velocity)
 {
   radius = _radius;
-  invMass = 1.0f / radius;
+  float area = PI * (radius * radius);
+  invMass = 1.0f / area;
 
 	Range x = MinMaxOnAxis(Vector2(1, 0));
 	Range y = MinMaxOnAxis(Vector2(0, 1));
-	m_aabb.Set(x.minimum, y.minimum, x.maximum, y.maximum);
+	m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
-Circle::~Circle(void)
+Circle::~Circle()
 {
 }
 
 void Circle::Draw(Renderer &_renderer)
 {
-  _renderer.SetRenderColour(0, 0, 0);
   SDL::DrawCircle(_renderer, position.x, position.y, radius);
 }
 

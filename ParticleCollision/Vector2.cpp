@@ -1,53 +1,47 @@
 #include "Maths.h"
 
-Vector2::Vector2(void)
+Vector2::Vector2() :
+  x(.0f), y(.0f)
+{ }
+
+Vector2::Vector2(float _val) :
+  x(_val), y(_val)
+{ }
+
+Vector2::Vector2(float _x, float _y) :
+  x(_x), y(_y)
+{ }
+
+Vector2::Vector2(const Vector2& _other) :
+  x(_other.x), y(_other.y)
+{ }
+
+float Vector2::Magnitude() const
 {
-  x = y = 0.0f;
+  return sqrt(abs(x * x + y * y));
 }
 
-Vector2::Vector2(float _val)
-{
-  x = y = _val;
-}
-
-Vector2::Vector2(float _x, float _y)
-{
-  x = _x;
-  y = _y;
-}
-
-Vector2::~Vector2(void)
-{
-}
-
-float Vector2::Magnitude(void) const
-{
-  return sqrt(x * x + y * y);
-}
-
-float Vector2::MagnitudeSq(void) const
+float Vector2::MagnitudeSq() const
 {
   return x * x + y * y;
 }
 
-void Vector2::Normalize(void)
+Vector2 Vector2::Normalized() const
 {
-  Vector2 v = Normalized(*this);
-  this->x = v.x;
-  this->y = v.y;
+  float m = Magnitude();
+  if (m == .0f)
+  {
+    throw;
+  }
+  return *this * (1.f / m);
 }
 
-Vector2 Vector2::Normalized(void) const
-{
-  return Normalized(*this);
-}
-
-Vector2 Vector2::Left(void) const
+Vector2 Vector2::Left() const
 {
   return Vector2(y, -x);
 }
 
-Vector2 Vector2::Right(void) const
+Vector2 Vector2::Right() const
 {
   return Vector2(-y, x);
 }
@@ -89,18 +83,12 @@ Vector2 Vector2::operator/=(const float &_scalar)
   return *this;
 }
 
-Vector2 Vector2::Normalized(const Vector2 &_vec)
+Vector2 Vector2::AngleToVector(float _radians)
 {
-  return _vec / _vec.Magnitude();
+  return Vector2(cos(_radians), sin(_radians));
 }
 
-Vector2 Vector2::AngleToVector(float _degrees)
-{
-  float rad = _degrees * DEG2RAD;
-  return Vector2(cos(rad), sin(rad));
-}
-
-float Vector2::VectorToAngle(Vector2 &_vector)
+float Vector2::VectorToAngle(const Vector2 &_vector)
 {
   return atan2(_vector.y, _vector.x);
 }

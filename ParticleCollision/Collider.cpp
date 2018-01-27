@@ -19,9 +19,9 @@ void Collider::Update(float _deltaTime)
   //velocity.y += 100.0f * _deltaTime;
   position += velocity * _deltaTime;
 
-	Range x =MinMaxOnAxis(Vector2(1, 0));
+	Range x = MinMaxOnAxis(Vector2(1, 0));
 	Range y = MinMaxOnAxis(Vector2(0, 1));
-	m_aabb.Set(x.minimum, y.minimum, x.maximum, y.maximum);
+	m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
 QuadTree::Item *Collider::AsItem(void) const

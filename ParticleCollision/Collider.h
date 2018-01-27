@@ -50,9 +50,6 @@ public:
   virtual bool CheckCollision(const Polygon  &_other, CollisionData &_data) const = 0;
   virtual bool CheckCollision(const Plane    &_other, CollisionData &_data) const = 0;
 
-  virtual Vector2 Min(void) const = 0;
-  virtual Vector2 Max(void) const = 0;
-
   virtual Range MinMaxOnAxis(const Vector2 &_axis) const = 0;
 
   const Vector2 &Position(void) const { return position; }

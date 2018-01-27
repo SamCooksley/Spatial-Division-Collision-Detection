@@ -1,180 +1,105 @@
 #include "Rect.h"
 
-Rect::Rect(void)
+Rect::Rect()
 { }
 
-Rect::Rect(const Vector2 &_minimum, const Vector2 &_maximum) :
-  m_minimum(_minimum), m_maximum(_maximum)
+Rect::Rect(const Vector2& _min, const Vector2& _max) :
+  min(_min), max(_max)
 { }
 
-Rect::Rect(float _minX, float _minY, float _maxX, float _maxY) :
-	m_minimum(_minX, _minY), m_maximum(_maxX, _maxY)
+Rect::Rect(float _minx, float _miny, float _maxx, float _maxy) :
+	min(_minx, _miny), max(_maxx, _maxy)
 { }
 
-Rect::~Rect(void)
+float Rect::Width() const
 {
+	return max.x - min.x;
 }
 
-void Rect::Set(const Vector2 &_minimum, const Vector2 &_maximum)
+float Rect::Height() const
 {
-	m_minimum = _minimum;
-	m_maximum = _maximum;
+	return max.y - min.y;
 }
 
-void Rect::Set(float _minX, float _minY, float _maxX, float _maxY)
+Vector2 Rect::Size() const
 {
-	m_minimum.x = _minX;
-	m_minimum.y = _minY;
-
-	m_maximum.x = _maxX;
-	m_maximum.y = _maxY;
+	return max - min;
 }
 
-void Rect::MinX(float _min)
-{
-	m_minimum.x = _min;
-}
-
-void Rect::MaxX(float _max)
-{
-	m_maximum.x = _max;
-}
-
-void Rect::MinY(float _min)
-{
-	m_minimum.y = _min;
-}
-
-void Rect::MaxY(float _max)
-{
-	m_maximum.y = _max;
-}
-
-float Rect::MinX(void) const
-{
-	return m_minimum.x;
-}
-
-float Rect::MaxX(void) const
-{
-	return m_maximum.x;
-}
-
-float Rect::MinY(void) const
-{
-	return m_minimum.y;
-}
-
-float Rect::MaxY(void) const
-{
-	return m_maximum.y;
-}
-
-const Vector2 &Rect::Minimum(void) const
-{
-	return m_minimum;
-}
-
-const Vector2 &Rect::Maximum(void) const
-{
-	return m_maximum;
-}
-
-float Rect::Width(void) const
-{
-	return m_maximum.x - m_minimum.x;
-}
-
-float Rect::Height(void) const
-{
-	return m_maximum.y - m_minimum.y;
-}
-
-Vector2 Rect::Size(void) const
-{
-	return m_maximum - m_minimum;
-}
-
-float Rect::Parimeter(void) const
+float Rect::Parimeter() const
 {
 	return (Width() + Height()) * 2.0f;
 }
 
-float Rect::Area(void) const
+float Rect::Area() const
 {
 	return Width() * Height();
 }
 
-Vector2 Rect::TopLeft(void) const
+Vector2 Rect::TopLeft() const
 {
-  return m_minimum;
+  return min;
 }
 
-Vector2 Rect::TopRight(void) const
+Vector2 Rect::TopRight() const
 {
-  return Vector2(m_maximum.x, m_minimum.y);
+  return Vector2(max.x, min.y);
 }
 
-Vector2 Rect::BottomLeft(void) const
+Vector2 Rect::BottomLeft() const
 {
-  return Vector2(m_minimum.x, m_maximum.y);
+  return Vector2(min.x, max.y);
 }
 
-Vector2 Rect::BottomRight(void) const
+Vector2 Rect::BottomRight() const
 {
-  return m_maximum;
+  return max;
 }
 
-bool Rect::Contains(const Vector2 &_point) const
+bool Rect::Contains(const Vector2& _point) const
 {
-  return _point.x >= m_minimum.x &&
-         _point.x <= m_maximum.x &&
-         _point.y >= m_minimum.y &&
-         _point.y <= m_maximum.y;
+  return _point.x >= min.x &&
+         _point.x <= max.x &&
+         _point.y >= min.y &&
+         _point.y <= max.y;
 }
 
-bool Rect::Contains(const Rect &_rect) const
+bool Rect::Contains(const Rect& _rect) const
 {
 	return Contains(_rect.TopLeft())    && 
 				 Contains(_rect.BottomRight());
 }
 
-bool Rect::Intersects(const Rect &_rect) const
+bool Rect::Intersects(const Rect& _rect) const
 {
-  return this->m_minimum.x <= _rect.m_maximum.x &&
-         this->m_maximum.x >= _rect.m_minimum.x &&
-         this->m_minimum.y <= _rect.m_maximum.y &&
-         this->m_maximum.y >= _rect.m_minimum.y;
+  return this->min.x <= _rect.max.x &&
+         this->max.x >= _rect.min.x &&
+         this->min.y <= _rect.max.y &&
+         this->max.y >= _rect.min.y;
 }
 
-void Rect::Union(const Rect &_a, const Rect &_b)
-{
-	m_minimum.x = fmin(_a.m_minimum.x, _b.m_minimum.x);
-	m_minimum.y = fmin(_a.m_minimum.y, _b.m_minimum.y);
-
-	m_maximum.x = fmax(_a.m_maximum.x, _b.m_maximum.x);
-	m_maximum.y = fmax(_a.m_maximum.y, _b.m_maximum.y);
-}
-
-void Rect::Draw(Renderer &_renderer)
+void Rect::Draw(Renderer& _renderer)
 {
 	SDL_Rect rect = {
-		floor(m_minimum.x),
-		floor(m_minimum.y),
-		ceil(Width()),
-		ceil(Height())
+		Floor(min.x),  Floor(min.y),
+    Ceil(Width()), Ceil(Height())
 	};
 	SDL_RenderDrawRect(_renderer.Get(), &rect);
 }
 
-bool Rect::Intersects(const Rect &_a, const Rect &_b)
+bool Rect::Intersects(const Rect& _a, const Rect& _b)
 {
 	return _a.Intersects(_b);
 }
 
-Rect Rect::Combine(const Rect &_a, const Rect &_b)
+Rect Rect::Union(const Rect& _a, const Rect& _b)
 {
-	Rect rect;
-	rect.Union(_a, _b);
+	Rect rect(
+    Min(_a.min.x, _b.min.x),
+    Min(_a.min.y, _b.min.y),
+
+    Max(_a.max.x, _b.max.x),
+    Max(_a.max.y, _b.max.y)
+  );
 	return rect;
 }

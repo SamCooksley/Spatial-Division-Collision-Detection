@@ -72,15 +72,15 @@ bool Game::Init(void)
 
   renderer.SetClearColour(240, 240, 240);
 
-	m_spawnRect.Set(100, 100, 700, 500);
+	m_spawnRect = Rect(100, 100, 700, 500);
 
   AddPlane(Vector2(100, 600/2), Vector2( 1.0f,  0.0f), 400);
   AddPlane(Vector2(700, 600/2), Vector2(-1.0f,  0.0f), 400);
   AddPlane(Vector2(800/2, 100), Vector2( 0.0f,  1.0f), 600);
   AddPlane(Vector2(800/2, 500), Vector2( 0.0f, -1.0f), 600);
 
-  AddPolygons(10);
-  AddCircles(1000);
+  AddPolygons(2);
+  AddCircles(50);
 	collisionManager.SetDivisionType(CollisionManager::DivisionType::AABB);
   return true;
 }
@@ -187,6 +187,8 @@ void Game::Render(void)
 	
 	collisionManager.Draw(renderer);
 
+  renderer.SetRenderColour(0, 0, 0);
+
   //draw all the particles
   for (auto& c : colliders)
   {
@@ -201,8 +203,8 @@ void Game::AddPolygons(int _count)
   for (int i = 0; i < _count; i++)
   {
 		Vector2 pos(
-			m_spawnRect.MinX() + rand() % (int)(m_spawnRect.MaxX() - m_spawnRect.MinX()),
-			m_spawnRect.MinY() + rand() % (int)(m_spawnRect.MaxY() - m_spawnRect.MinY())
+			m_spawnRect.min.x + rand() % (int)(m_spawnRect.max.x - m_spawnRect.min.y),
+			m_spawnRect.min.y + rand() % (int)(m_spawnRect.max.y - m_spawnRect.min.y)
 		);
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 10.0f;
@@ -218,8 +220,8 @@ void Game::AddCircles(int _count)
   for (int i = 0; i < _count; i++)
   {
     Vector2 pos(
-			m_spawnRect.MinX() + rand() % (int)(m_spawnRect.MaxX() - m_spawnRect.MinX()),
-			m_spawnRect.MinY() + rand() % (int)(m_spawnRect.MaxY() - m_spawnRect.MinY())
+			m_spawnRect.min.x + rand() % (int)(m_spawnRect.max.x - m_spawnRect.min.x),
+			m_spawnRect.min.y + rand() % (int)(m_spawnRect.max.y - m_spawnRect.min.y)
 		);
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;

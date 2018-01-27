@@ -1,3 +1,54 @@
-﻿  QuadTree.cpp
-  ParticleCollision.vcxproj -> I:\Projects\Collision\Debug\ParticleCollision.exe
-  ParticleCollision.vcxproj -> I:\Projects\Collision\Debug\ParticleCollision.pdb (Partial PDB)
+﻿  Range.cpp
+  Polygon.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\polygon.cpp(11): error C2600: 'Polygon::~Polygon': cannot define a compiler-generated special member function (must be declared in the class first)
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\polygon.cpp(53): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\polygon.cpp(54): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Plane.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.cpp(25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  QuadTreeNode.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\quadtreenode.cpp(46): warning C4018: '>=': signed/unsigned mismatch
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\quadtreenode.cpp(114): warning C4018: '<': signed/unsigned mismatch
+  QuadTreeItem.cpp
+  QuadTree.cpp
+  Main.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+  ItemCollider.cpp
+  Game.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\game.cpp(42): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  CollisionManager.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+  ColliderPair.cpp
+  Collider.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+  Circle.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(22): error C3668: 'Circle::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.h(23): error C3668: 'Circle::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(24): error C3668: 'Plane::Min': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.h(25): error C3668: 'Plane::Max': method with override specifier 'override' did not override any base class methods
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.cpp(22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  AABBTreeItemCollider.cpp
+  AABBTree.cpp
+  Generating Code...

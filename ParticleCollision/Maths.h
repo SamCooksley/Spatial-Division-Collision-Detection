@@ -5,9 +5,9 @@
 
 #include "Vector2.h"
 
-const float PI = 3.14159f;
-const float RAD2DEG = 180.0f / PI;
-const float DEG2RAD = PI / 180.0f; 
+constexpr float PI = 3.14159265359f;
+constexpr float RAD2DEG = 180.f / PI;
+constexpr float DEG2RAD = PI / 180.f;
 
 /**
  * \brief Clamps a value between a minimum and maximum
@@ -17,9 +17,9 @@ const float DEG2RAD = PI / 180.0f;
  * \param [in] _max   Maximum value.
  * \return Returns the clamped value.
  */
-inline float Clamp(float _value, float _min, float _max)
+inline float Clamp(float _x, float _min, float _max)
 {
-  return std::max(std::min(_value, _max), _min);
+  return std::max(std::min(_x, _max), _min);
 }
 
 /**
@@ -32,25 +32,33 @@ inline float Clamp(float _value, float _min, float _max)
  */
 inline float Lerp(float _a, float _b, float _t)
 {
-  _t = Clamp(_t, 0.0f, 1.0f);
+  _t = Clamp(_t, 0.f, 1.f);
   return _a + (_b - _a) * _t;
-}
-
-inline float Max(float _a, float _b)
-{
-  if (_b > _a) { return _b; }
-  return _a;
 }
 
 inline float Min(float _a, float _b)
 {
-  if (_b < _a) { return _b; }
-  return _a;
+  return std::min(_a, _b);
 }
 
-inline float Abs(float _value)
+inline float Max(float _a, float _b)
 {
-	return std::abs(_value);
+  return std::max(_a, _b);
+}
+
+inline float Abs(float _x)
+{
+	return std::abs(_x);
+}
+
+inline float Floor(float _x)
+{
+  return std::floor(_x);
+}
+
+inline float Ceil(float _x)
+{
+  return std::ceil(_x);
 }
 
 #endif //_MATH_H_

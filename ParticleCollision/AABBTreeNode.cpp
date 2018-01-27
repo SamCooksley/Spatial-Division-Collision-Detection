@@ -55,12 +55,12 @@ namespace AABBTree
 		if (IsLeaf())
 		{
 			Rect rect = m_item->GetRect();
-			Vector2 offset(2);
-			m_rect.Set(rect.TopLeft() - offset, rect.BottomRight() + offset);
+			Vector2 offset(2.f);
+      m_rect = Rect(rect.TopLeft() - offset, rect.BottomRight() + offset);
 		}
 		else
 		{
-			m_rect.Union(m_children[0]->m_rect, m_children[1]->m_rect);
+      m_rect = Rect::Union(m_children[0]->m_rect, m_children[1]->m_rect);
 		}
 	}
 

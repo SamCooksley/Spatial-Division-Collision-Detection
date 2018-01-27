@@ -1,26 +1,23 @@
 #ifndef _VECTOR2_H_
 #define _VECTOR2_H_
 
-struct Vector2
+class Vector2
 {
 public:
-  float x;
-  float y;
+  float x, y;
 
-  Vector2(void);
+  Vector2();
   Vector2(float _val);
   Vector2(float _x, float _y);
+  Vector2(const Vector2& _other);
 
-  ~Vector2(void);
+  float Magnitude() const;
+  float MagnitudeSq() const;
 
-  float Magnitude(void) const;
-  float MagnitudeSq(void) const;
+  Vector2 Normalized() const;
 
-  void Normalize(void);
-  Vector2 Normalized(void) const;
-
-  Vector2 Left(void) const;
-  Vector2 Right(void) const;
+  Vector2 Left() const;
+  Vector2 Right() const;
 
   Vector2 operator=(const Vector2 &_rhs);
 
@@ -30,12 +27,10 @@ public:
   Vector2 operator*=(const float &_scalar);
   Vector2 operator/=(const float &_scalar);
 
-  static Vector2 Normalized(const Vector2 &_vec);
-
   static float Dot(const Vector2 &_lhs, const Vector2 &_rhs);
 
-  static Vector2 AngleToVector(float _degrees);
-  static float VectorToAngle(Vector2 &_vector);
+  static Vector2 AngleToVector(float _radians);
+  static float VectorToAngle(const Vector2 &_vector);
 };
 
 Vector2 operator+(const Vector2 &_lhs, const Vector2 &_rhs);

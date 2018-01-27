@@ -1,72 +1,68 @@
 #include "Range.h"
 
-#include "Maths.h"
-
-Range::Range(void) :
-	minimum(0.0f),
-	maximum(0.0f)
+Range::Range() :
+	min(.0f), max(.0f)
 { }
 
 Range::Range(float _min, float _max) :
-	minimum(_min),
-	maximum(_max)
+	min(_min), max(_max)
+{ }
+
+void Range::Sort()
 {
-	Sort();
+  if (min > max)
+  {
+    float tmp = min;
+    min = max;
+    max = tmp;
+  }
 }
 
-void Range::Set(float _min, float _max)
+bool Range::Contains(float _x) const
 {
-	minimum = _min;
-	maximum = _max;
-	Sort();
+	return _x >= this->min &&
+				 _x <= this->max;
 }
 
-void Range::Minimum(float _min)
+float Range::Distance(float _x) const
 {
-	minimum = _min;
-	Sort();
-}
-
-void Range::Maximum(float _max)
-{
-	maximum = _max;
-	Sort();
-}
-
-bool Range::Contains(float _value) const
-{
-	return _value >= this->minimum &&
-				 _value <= this->maximum;
-}
-
-float Range::Distance(float _value) const
-{
-	if (Contains(_value)) { return 0.0f; }
+	if (Contains(_x)) { return .0f; }
 	return Min(
-		Abs(this->minimum - _value),
-		Abs(_value - this->maximum)
-	);
+    Abs(this->min - _x),
+    Abs(_x - this->max)
+  );
 }
 
-bool Range::Overlaps(const Range &_other) const
+bool Range::Overlaps(const Range& _other) const
 {
-	return this->minimum <= _other.maximum &&
-				 this->maximum >= _other.minimum;
+  return Overlaps(*this, _other);
 }
 
-float Range::Overlap(const Range &_other) const
+float Range::Overlap(const Range& _other) const
 {
-	return Max(0.0f,
-			Min(this->maximum, _other.maximum) - Max(this->minimum, _other.minimum)
-	);
+  return Overlap(*this, _other);
 }
 
-void Range::Sort(void)
+float Range::Distance(const Range& _other) const
 {
-	if (minimum > maximum)
-	{
-		float tmp = maximum;
-		maximum = minimum;
-		minimum = tmp;
-	}
+  return Distance(*this, _other);
+}
+
+bool Range::Overlaps(const Range& _a, const Range& _b)
+{
+  return _a.min <= _b.max &&
+         _a.max >= _b.min;
+}
+
+float Range::Overlap(const Range& _a, const Range& _b)
+{
+  return Max(0.0f,
+    Min(_a.max, _b.max) - Max(_a.min, _b.min)
+  );
+}
+
+float Range::Distance(const Range& _a, const Range& _b)
+{
+  if (Overlaps(_a, _b)) { return .0f; }
+  return Min(Abs(_a.min - _b.max), Abs(_b.min - _a.max));
 }

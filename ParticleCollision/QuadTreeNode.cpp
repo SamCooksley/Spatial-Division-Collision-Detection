@@ -92,17 +92,17 @@ namespace QuadTree
 
 		Rect rect;
 
-		Vector2 offset = m_rect.Minimum();
+		Vector2 offset = m_rect.min;
 
 		for (int y = 0; y < s_yDivisions; y++)
 		{
-			rect.MinY(offset.y + y * height);
-			rect.MaxY(rect.MinY() + height);
+			rect.min.y = offset.y + y * height;
+			rect.max.y = rect.min.y + height;
 
 			for (int x = 0; x < s_xDivisions; x++)
 			{
-				rect.MinX(offset.x + x * width);
-				rect.MaxX(rect.MinX() + width);
+        rect.min.x = offset.x + x * width;
+        rect.max.x = rect.min.x + width;
 
 				m_children[y * s_xDivisions + x] = new Node(this, rect, m_maxItems, m_depth + 1);
 			}
