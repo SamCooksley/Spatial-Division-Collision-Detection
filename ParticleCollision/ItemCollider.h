@@ -10,17 +10,17 @@ namespace  QuadTree
 {
   class ItemCollider : public Item
   {
-  private:
-    Collider *m_collider;
+   public:
+    ItemCollider(Collider& _collider);
+    ~ItemCollider();
 
-  public:
-    ItemCollider(Collider &_collider);
-    ~ItemCollider(void);
+    Vector2 GetPosition() const override;
+    Rect GetRect() const override;
 
-    Vector2 GetPosition(void) const override;
-    Rect GetRect(void) const override;
+		void* Get() override { return m_collider; }
 
-		void* Get(void) override { return m_collider; }
+   private:
+    Collider* m_collider;
   };
 }
 

@@ -1,10 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-/**
- * \brief Manages the application.
- */
-
 #include <vector>
 
 #include "Window.h"
@@ -13,43 +9,49 @@
 #include "CollisionManager.h"
 #include "Collider.h"
 
+/**
+ * \brief Manages the application.
+ */
+
+
 class Game
 {
-private:
-  bool done; 
+ public:
+  int Run(); //!< Start the application.
 
-  float deltaTime;
+  void Quit(); //!< Close the application. Exit the main loop.
 
-  Window window;    
-  Renderer renderer; 
+  void AddPolygons(int _count); //!< Add polygons to the scene.
+  void AddCircles(int _count); //!< Add circles to the scene.
 
-  CollisionManager collisionManager;
-  std::vector<std::shared_ptr<Collider>> colliders;
+  /**
+   * \brief Add a plane to the scene.
+   * \param [in] _position Position of the plane.
+   * \param [in] _normal   Orientation of the plane.
+   * \param [in] _width    Size of the plane.
+   */
+  void AddPlane(const Vector2& _position, const Vector2& _normal, float _width);
 
-	Rect m_spawnRect;
+ private:
+  bool Init(); //!< Setup the application.
+  void Loop(); //!< Main loop.
+  void Exit(); //!< Shutdown the application.
 
-public:
-  Game(void);
-  ~Game(void); 
+  void HandleEvents(); //!< Update 
+  void Update(); //!< Run the simulation.
+  void Render(); //!< Draw all the objects.
 
-  int Run(void);
+  bool m_done; //!< Should the application quit.
 
-  void Quit(void) { done = true; } 
+  float m_deltaTime; //!< Time taken for the previous frame to be completed.
 
-  const Window &GetWindow(void) const { return window; }
+  Window m_window; //!< Window of the application.
+  Renderer m_renderer; //!< Renderer to draw to the window.
 
-  void AddPolygons(int _count);
-  void AddCircles(int _count);
-  void AddPlane(const Vector2 &_position, const Vector2 &_normal, float _width);
+  CollisionManager m_collisionManager; //!< Handle collisions between colliders.
+  std::vector<std::shared_ptr<Collider>> m_colliders; //!< List of objects in the scene.
 
-private:
-  bool Init(void); 
-  void Loop(void); 
-  void Exit(void);
-
-  void HandleEvents(void); 
-  void Update(void);  
-  void Render(void); 
+  Rect m_spawnRect; //!< Area to spawn objects.
 };
 
 #endif //_GAME_H_

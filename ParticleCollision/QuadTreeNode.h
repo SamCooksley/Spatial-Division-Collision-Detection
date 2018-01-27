@@ -57,11 +57,10 @@ namespace QuadTree
 				}
 			}
 
-			int size = m_items.size();
-			for (int i = 0; i < size - 1; i++)
+			for (size_t i = 0; i < m_items.size() - 1; ++i)
 			{
 				Collider &a = *(Collider*)m_items[i]->Get();
-				for (int j = i + 1; j < size; j++)
+				for (size_t j = i + 1; j < m_items.size(); ++j)
 				{
 					Collider &b = *(Collider*)m_items[j]->Get();
 					_check(a, b);

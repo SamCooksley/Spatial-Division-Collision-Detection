@@ -5,18 +5,17 @@
 #include "Renderer.h"
 #include "Font.h"
 
-Texture::Texture(void)
-{
-  m_texture = nullptr;
-  m_width = m_height = 0;
-}
+Texture::Texture() :
+  m_texture(nullptr),
+  m_width(0), m_height(0)
+{ }
 
-Texture::~Texture(void)
+Texture::~Texture()
 {
   Destroy();
 }
 
-void Texture::Destroy(void)
+void Texture::Destroy()
 {
   //if a texture exists, destroy it
   if (m_texture != nullptr)
@@ -28,7 +27,7 @@ void Texture::Destroy(void)
   m_width = m_height = 0;
 }
 
-bool Texture::Create(Renderer &_renderer, int _width, int _height, int _format, int _access)
+bool Texture::Create(Renderer& _renderer, int _width, int _height, int _format, int _access)
 {
   Destroy(); //destroy any existing texture
 
@@ -39,7 +38,7 @@ bool Texture::Create(Renderer &_renderer, int _width, int _height, int _format, 
   return m_texture != nullptr;
 }
 
-bool Texture::Load(Renderer &_renderer, const std::string &_filename)
+bool Texture::Load(Renderer& _renderer, const std::string& _filename)
 {
   Destroy(); //destroy any existing texture
   
@@ -71,7 +70,7 @@ bool Texture::Load(Renderer &_renderer, const std::string &_filename)
   return m_texture != nullptr;
 }
 
-bool Texture::CreateFromText(Renderer &_renderer, Font &_font, const std::string &_text, const SDL_Color &_colour)
+bool Texture::CreateFromText(Renderer& _renderer, const Font& _font, const std::string& _text, const SDL_Color& _colour)
 {
   Destroy(); //destroy any existing texture
  
@@ -80,26 +79,25 @@ bool Texture::CreateFromText(Renderer &_renderer, Font &_font, const std::string
 
   if (surface == nullptr)
   {
-    printf( "Unable to render text surface. SDL_ttf Error: %s\n", TTF_GetError() );
+    printf("Unable to render text surface. SDL_ttf Error: %s\n", TTF_GetError());
+    return false;
+  }
+
+  //create texture
+  m_texture = SDL_CreateTextureFromSurface(_renderer.Get(), surface);
+  
+  if (m_texture == nullptr)
+  {
+    printf("Unable to create texture from rendered text. SDL Error: %s\n", SDL_GetError());
   }
   else
   {
-    //create texture
-    m_texture = SDL_CreateTextureFromSurface(_renderer.Get(), surface);
-  
-    if (m_texture == nullptr)
-    {
-      printf( "Unable to create texture from rendered text. SDL Error: %s\n", SDL_GetError() );
-    }
-    else
-    {
-      m_width = surface->w;
-      m_height = surface->h;
-    }
-  
-    //destroy surface
-    SDL_FreeSurface (surface);
+    m_width = surface->w;
+    m_height = surface->h;
   }
+  
+  //destroy surface
+  SDL_FreeSurface (surface);
   
   return m_texture != nullptr;
 }
@@ -114,4 +112,14 @@ void Texture::Draw(Renderer &_renderer, int _x, int _y)
   //draw in the size of image 
   SDL_Rect dest = { _x, _y, m_width, m_height };
   Draw(_renderer, nullptr, &dest);
+}
+
+int Texture::GetWidth() const
+{
+  return m_width;
+}
+
+int Texture::GetHeight() const
+{
+  return m_height;
 }

@@ -4,21 +4,19 @@
 
 namespace QuadTree
 {
-  ItemCollider::ItemCollider(Collider &_collider) :
+  ItemCollider::ItemCollider(Collider& _collider) :
 		m_collider(&_collider)
-  {
-  }
+  { }
 
-  ItemCollider::~ItemCollider(void)
-  {
-  }
+  ItemCollider::~ItemCollider()
+  { }
 
-  Vector2 ItemCollider::GetPosition(void) const
+  Vector2 ItemCollider::GetPosition() const
   {
     return m_collider->Position();
   }
 
-  Rect ItemCollider::GetRect(void) const
+  Rect ItemCollider::GetRect() const
   {
 		return m_collider->AABB();
   }

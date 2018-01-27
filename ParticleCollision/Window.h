@@ -1,28 +1,22 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
-/** 
- * \brief Container class for a window.
- *
- * Encapsulates the SDL_Window class for
- * increased usability. 
- */
 
 struct SDL_Window;
 struct SDL_WindowEvent;
 
+/**
+ * \brief Container class for a window.
+ *
+ * Encapsulates the SDL_Window class for
+ * increased usability.
+ */
+
 class Window
 {
-private:
-  SDL_Window *m_window; //!< Window.
-  unsigned int m_id;
-
-  int m_width;
-  int m_height;
-
-public:
-  Window(void);  //!< Constructor.
-  ~Window(void); //!< Destructor.
+ public:
+  Window();  //!< Constructor.
+  ~Window(); //!< Destructor.
 
   /**
    * \brief Creates the window.
@@ -34,14 +28,21 @@ public:
    */
   bool Create(const char *_title, int _width, int _height);
 
-  void Destroy(void); //!< Destroy the window.
+  void Destroy(); //!< Destroy the window.
 
-  void HandleEvent(const SDL_WindowEvent &_event); //1< Handle any events related to the window.
+  void HandleEvent(const SDL_WindowEvent& _event); //!< Handle any events related to the window.
 
-  int GetWidth (void) const { return m_width;  } //!< Get the width of the window.
-  int GetHeight(void) const { return m_height; } //!< Get the height of the window.
+  int GetWidth() const; //!< Get the width of the window.
+  int GetHeight() const; //!< Get the height of the window.
 
-  SDL_Window *Get(void) const { return m_window; } //!< Get the SDL window.
+  SDL_Window* Get() const; //!< Get the SDL window.
+
+ private:
+  SDL_Window *m_window; //!< Window.
+  unsigned int m_id; //!< Window id.
+
+  int m_width; //!< Window width.
+  int m_height; //!< Window height.
 };
 
 #endif //_WINDOW_H_

@@ -1,10 +1,13 @@
-#pragma once
+#ifndef _COLLIDER_H_
+#define _COLLIDER_H_
 
 #include "Maths.h"
 #include "Range.h"
+
 #include "Renderer.h"
 
 #include "CollisionData.h"
+
 #include "ItemCollider.h"
 #include "AABBTreeItemCollider.h"
 
@@ -18,46 +21,57 @@ enum class ColliderType
   CIRCLE,
   POLYGON,
   PLANE
-};
+}; //!< Types of colliders.
+
+/**
+ * \brief Base class for colliders.
+ */
 
 class Collider
 {
   friend class CollisionManager;
-private:
-  ColliderType type;
 
-protected:
-  Vector2 position;
-  Vector2 velocity;
+ public:
+  Collider(ColliderType _type, const Vector2& _position, const Vector2& _velocity); //!< Constructor.
+  virtual ~Collider(); //!< Destructor.
 
-  float invMass;
-  float bounciness;
+  virtual void Update(float _deltaTime); //!< Simulate the object. Move the object.
+  virtual void Draw(Renderer& _renderer); //!< Render the collider's shape.
 
-	Rect m_aabb;
+  virtual bool CheckCollision(const Collider& _other, CollisionData& _data) const = 0; //!< Used for double dispatch.
+  virtual bool CheckCollision(const Circle&   _other, CollisionData& _data) const = 0; //!< Collide against cicles.
+  virtual bool CheckCollision(const Polygon&  _other, CollisionData& _data) const = 0; //!< Collide against polygons.
+  virtual bool CheckCollision(const Plane&    _other, CollisionData& _data) const = 0; //!< Collide against planes.
 
-	QuadTree::ItemCollider m_item;
-	AABBTree::ItemCollider m_aabbItem;
+  /**
+   * \brief Get the range of the collider on the axis. 
+   * \param [in] _axis Axis to project the collider.
+   * \return Returns the minimum and maximum on an axis.
+   */
+  virtual Range MinMaxOnAxis(const Vector2& _axis) const = 0;
 
-public:
-  Collider(ColliderType _type, const Vector2 &_position, const Vector2 &_velocity);
-  virtual ~Collider(void);
+  const Vector2& Position() const; //!< Get the position.
+  const Vector2& Velocity() const; //!< Get the velocity. 
 
-  virtual void Update(float _deltaTime);
-  virtual void Draw(Renderer &_renderer) { }
+  const Rect& AABB() const; //!< Get the AABB of the collider.
 
-  virtual bool CheckCollision(const Collider &_other, CollisionData &_data) const = 0;
-  virtual bool CheckCollision(const Circle   &_other, CollisionData &_data) const = 0;
-  virtual bool CheckCollision(const Polygon  &_other, CollisionData &_data) const = 0;
-  virtual bool CheckCollision(const Plane    &_other, CollisionData &_data) const = 0;
+	QuadTree::Item* AsQuadItem() const; 
+	AABBTree::Item* AsAABBItem() const;
 
-  virtual Range MinMaxOnAxis(const Vector2 &_axis) const = 0;
+ protected:
+  Vector2 m_position; //!< position.
+  Vector2 m_velocity; //!< velocity.
 
-  const Vector2 &Position(void) const { return position; }
-  const Vector2 &Velocity(void) const { return velocity; }
+  float m_invMass; //!< Inverse mass.
+  float m_bounciness; //!< energy loss.
 
-	const Rect &AABB(void) const { return m_aabb; }
+  Rect m_aabb; //!< Bounds of the collider.
 
-	QuadTree::Item *AsItem(void) const;
-	AABBTree::Item *AsAABBItem(void) const;
+  QuadTree::ItemCollider m_quadItem; //!< Object used for quad trees.
+  AABBTree::ItemCollider m_aabbItem; //!< Object used for aabb trees.
+
+ private:
+  ColliderType m_type; //!< Type of collider.
 };
 
+#endif //_COLLIDER_H_

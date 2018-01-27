@@ -1,15 +1,14 @@
 #include "Text.h"
 
-Text::Text(void)
+Text::Text() :
+  m_dirty(true)
 {
-  m_dirty = true;
   m_colour.r = m_colour.g = m_colour.b = 0;
   m_colour.a = 1;
 }
 
-Text::~Text(void)
-{
-}
+Text::~Text()
+{ }
 
 void Text::UpdateTexture(Renderer &_renderer)
 {
@@ -36,9 +35,31 @@ void Text::Draw(Renderer &_renderer, int _x, int _y)
   m_texture.Draw(_renderer, _x, _y);
 }
 
+void Text::SetFont(const std::shared_ptr<Font>& _font)
+{
+  m_font = _font;
+  m_dirty = true;
+}
+
+void Text::SetText(const std::string& _text)
+{
+  m_text = _text;
+  m_dirty = true;
+}
+
 void Text::SetColour(Uint8 _r, Uint8 _g, Uint8 _b, Uint8 _a)
 {
   m_colour.r = _r, m_colour.g = _g, m_colour.b = _b;
   m_colour.a = _a;
   m_dirty = true;
+}
+
+int Text::GetWidth() const
+{
+  return m_texture.GetWidth();
+}
+
+int Text::GetHeight() const
+{
+  return m_texture.GetHeight();
 }

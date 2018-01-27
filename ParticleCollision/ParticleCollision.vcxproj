@@ -82,7 +82,6 @@
     <ClCompile Include="AABBTreeNode.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="ColliderPair.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -96,7 +95,7 @@
     <ClCompile Include="Range.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="SDL.cpp" />
+    <ClCompile Include="SDL_Functions.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -125,7 +124,7 @@
     <ClInclude Include="Range.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="SDL.h" />
+    <ClInclude Include="SDL_Functions.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />

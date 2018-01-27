@@ -5,6 +5,7 @@
 
 namespace QuadTree
 {
+  //TODO: write a resize function.
   class QuadTree
   {
   private:

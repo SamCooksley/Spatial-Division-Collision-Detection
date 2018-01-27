@@ -1,12 +1,12 @@
 #ifndef _PLANE_H_
 #define _PLANE_H_
 
+#include "Maths.h"
+#include "Collider.h"
+
 /**
  * \brief Define a plane collider.
  */
-
-#include "Maths.h"
-#include "Collider.h"
 
 class Plane : public Collider
 {
@@ -25,7 +25,7 @@ public:
    * \param [out] _data  Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Circle&   _other, CollisionData& _data) const override;
+  bool CheckCollision(const Circle& _other, CollisionData& _data) const override;
   
   /**
    * \brief Check if a polygon has collided with the plane.
@@ -33,7 +33,7 @@ public:
    * \param [out] _data   Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Polygon&  _other, CollisionData& _data) const override;
+  bool CheckCollision(const Polygon& _other, CollisionData& _data) const override;
   
   /**
    * \brief Check if there is a collision between the planes.
@@ -41,7 +41,7 @@ public:
    * \param [out] _data  Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Plane&    _other, CollisionData& _data) const override;
+  bool CheckCollision(const Plane& _other, CollisionData& _data) const override;
 
   /**
    * \brief Get the area of the collider on an axis.
@@ -54,7 +54,7 @@ public:
   Vector2 Max() const; //!< Get the maximum point in world space.
 
 private:
-  Vector2 m_normal; //!<
+  Vector2 m_normal; //!< Direction of the plane.
   float m_width; //!< Size of the plane.
 };
 

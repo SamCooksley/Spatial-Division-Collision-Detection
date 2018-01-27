@@ -5,18 +5,11 @@
 
 #include "Collider.h"
 
-class ColliderPair
+struct ColliderPair
 {
-private: 
-	Collider *m_a;
-	Collider *m_b;
-
-public:
-	ColliderPair(Collider &_a, Collider &_b);
-	~ColliderPair(void);
-
-	Collider &A(void);
-	Collider &B(void);
+ public: 
+	Collider *a;
+	Collider *b;
 };
 
 typedef std::vector<ColliderPair> ColliderPairList;

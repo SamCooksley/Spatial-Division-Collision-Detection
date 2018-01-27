@@ -1,24 +1,21 @@
 #ifndef _FONT_H_
 #define _FONT_H_
 
+#include <string>
+
+#include "SDL_ttf.h"
+
 /**
  * \brief Wrapper class for SDL_TTF font.
  */
 
-#include <string>
-
-#include <SDL_ttf.h>
-
 class Font
 {
-private:
-  TTF_Font *m_font; //!< Font.
+ public:
+  Font();  //!< Constructor.
+  ~Font(); //!< Destructor.
 
-public:
-  Font(void);  //!< Constructor.
-  ~Font(void); //!< Destructor.
-
-  void Destroy(void); //!< Delete the font.
+  void Destroy(); //!< Delete the font.
 
   /**
    * \brief Load font from file.
@@ -28,9 +25,12 @@ public:
    */
   bool Load(const std::string &_filename, int _size);
 
-  int Height(void) const { return TTF_FontLineSkip(m_font); }
+  int Height() const; //!< Get the font height.
 
-  TTF_Font *Get(void) { return m_font; } //!< Get the SDL_TTF font.
+  TTF_Font *Get() const; //!< Get the SDL font.
+
+ private:
+  TTF_Font *m_font; //!< Font.
 };
 
 #endif //_FONT_H_

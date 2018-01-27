@@ -44,13 +44,13 @@ bool Plane::CheckCollision(const Plane &_other, CollisionData &_data) const
 Vector2 Plane::Min() const
 {
   //TODO: this may not be the minimum point.
-  return position + m_normal.Left() * m_width;
+  return m_position + m_normal.Left() * m_width;
 }
 
 Vector2 Plane::Max() const
 {
   //TODO: this may not be the maximum point.
-  return position + m_normal.Right() * m_width;
+  return m_position + m_normal.Right() * m_width;
 }
 
 Range Plane::MinMaxOnAxis(const Vector2 &_axis) const

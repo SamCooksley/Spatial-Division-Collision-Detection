@@ -36,7 +36,7 @@ void Polygon::GenerateRandom(float _minSize, float _maxSize, int _vertexCount)
   //set the mass.
   averageDistance /= m_points.size();
   float area = PI * (averageDistance * averageDistance);
-  invMass = 1.f / averageDistance;
+  m_invMass = 1.f / averageDistance;
 
   //update the aabb.
   Range x = MinMaxOnAxis(Vector2(1, 0));
@@ -54,8 +54,8 @@ void Polygon::Draw(Renderer& _renderer)
 
   for (size_t i = 0; i < m_points.size(); ++i)
   {
-    points[i].x = static_cast<int>(m_points[i].x + position.x);
-    points[i].y = static_cast<int>(m_points[i].y + position.y);
+    points[i].x = static_cast<int>(m_points[i].x + m_position.x);
+    points[i].y = static_cast<int>(m_points[i].y + m_position.y);
   }
 
   //connect back to the first point.

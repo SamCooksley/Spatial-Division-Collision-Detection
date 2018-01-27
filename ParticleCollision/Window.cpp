@@ -1,14 +1,11 @@
 #include "Window.h"
 
-#include <SDL.h>
+#include "SDL.h"
 
-Window::Window(void)
-{
-  //state that there is no window.
-  m_window = nullptr;
-
-  m_width = m_height = 0;
-}
+Window::Window() :
+  m_window(nullptr), m_id(0),
+  m_width(0), m_height(0)
+{ }
 
 Window::~Window(void)
 {
@@ -51,7 +48,7 @@ void Window::Destroy(void)
   }
 }
 
-void Window::HandleEvent(const SDL_WindowEvent &_event)
+void Window::HandleEvent(const SDL_WindowEvent& _event)
 {
   //only act to events related to this window
   //if its not the same window, exit
@@ -67,4 +64,19 @@ void Window::HandleEvent(const SDL_WindowEvent &_event)
       break;
     }
   }
+}
+
+int Window::GetWidth() const
+{
+  return m_width;
+}
+
+int Window::GetHeight() const
+{
+  return m_height;
+}
+
+SDL_Window* Window::Get() const
+{
+  return m_window;
 }

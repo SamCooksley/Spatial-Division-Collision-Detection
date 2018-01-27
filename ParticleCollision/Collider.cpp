@@ -3,33 +3,51 @@
 #include "CollisionManager.h"
 
 Collider::Collider(ColliderType _type, const Vector2 &_position, const Vector2 &_velocity) : 
-	position(_position), velocity(_velocity), m_item(*this), m_aabbItem(*this)
+  m_position(_position), m_velocity(_velocity), m_quadItem(*this), m_aabbItem(*this)
 {
-  type = _type;
+  m_type = _type;
 
-  bounciness = 1;
+  m_bounciness = 1.f;
 }
 
-Collider::~Collider(void)
-{
-}
+Collider::~Collider()
+{ }
 
 void Collider::Update(float _deltaTime)
 {
   //velocity.y += 100.0f * _deltaTime;
-  position += velocity * _deltaTime;
+  m_position += m_velocity * _deltaTime;
 
-	Range x = MinMaxOnAxis(Vector2(1, 0));
-	Range y = MinMaxOnAxis(Vector2(0, 1));
+	Range x = MinMaxOnAxis(Vector2(1.f, 0.f));
+	Range y = MinMaxOnAxis(Vector2(0.f, 1.f));
+
 	m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
-QuadTree::Item *Collider::AsItem(void) const
+void Collider::Draw(Renderer& _renderer)
+{ }
+
+const Vector2& Collider::Position() const
 {
-	return (QuadTree::Item*)&m_item;
+  return m_position;
 }
 
-AABBTree::Item *Collider::AsAABBItem(void) const
+const Vector2& Collider::Velocity() const
 {
-	return (AABBTree::Item*)&m_aabbItem;
+  return m_velocity;
+}
+
+const Rect& Collider::AABB() const
+{
+  return m_aabb;
+}
+
+QuadTree::Item* Collider::AsQuadItem() const
+{
+	return static_cast<QuadTree::Item*>(&m_quadItem);
+}
+
+AABBTree::Item* Collider::AsAABBItem() const
+{
+	return static_cast<AABBTree::Item*>(&m_aabbItem);
 }
