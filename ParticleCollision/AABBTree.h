@@ -82,25 +82,6 @@ namespace AABBTree
         {
           RemoveNode(node);
 
-          /*Node<T>* parent = node->m_parent;
-          Node<T>* sibling = node->GetSibling();
-          Node<T>** parentLink = nullptr;
-
-          if (parent->m_parent != nullptr)
-          {
-            parentLink = &parent->m_parent->m_children[parent->GetChildIndex()];
-            sibling->m_parent = parent->m_parent;
-          }
-          else
-          {
-            parentLink = &m_root;
-            sibling->m_parent = nullptr;
-          }
-
-          *parentLink = sibling;
-          delete parent;*/
-
-
           node->UpdateAABB();
           //reinsert the node to the tree.
           InsertNode(node, &m_root);
