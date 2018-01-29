@@ -6,13 +6,13 @@
 #include "Window.h"
 #include "Renderer.h"
 
-#include "CollisionManager.h"
-#include "Collider.h"
+#include "CM_BruteForce.h"
+#include "CM_QuadTree.h"
+#include "CM_AABBTree.h"
 
 /**
  * \brief Manages the application.
  */
-
 
 class Game
 {
@@ -48,7 +48,12 @@ class Game
   Window m_window; //!< Window of the application.
   Renderer m_renderer; //!< Renderer to draw to the window.
 
-  CollisionManager m_collisionManager; //!< Handle collisions between colliders.
+  CollisionManager* m_current;
+
+  CM_BruteForce m_brute;
+  CM_QuadTree m_quad;
+  CM_AABBTree m_aabb;
+
   std::vector<std::shared_ptr<Collider>> m_colliders; //!< List of objects in the scene.
 
   Rect m_spawnRect; //!< Area to spawn objects.

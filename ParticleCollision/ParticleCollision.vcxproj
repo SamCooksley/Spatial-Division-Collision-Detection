@@ -81,8 +81,11 @@
     <ClCompile Include="AABBTreeItemCollider.cpp" />
     <ClCompile Include="AABBTreeNode.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="CM_AABBTree.cpp" />
+    <ClCompile Include="CM_QuadTree.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="CM_BruteForce.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -104,10 +107,13 @@
     <ClInclude Include="AABBTreeItemCollider.h" />
     <ClInclude Include="AABBTreeNode.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="CM_AABBTree.h" />
+    <ClInclude Include="CM_QuadTree.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="ColliderPair.h" />
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CM_BruteForce.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Maths.h" />

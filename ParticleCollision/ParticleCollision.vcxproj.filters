@@ -105,6 +105,15 @@
     <ClCompile Include="SDL_Functions.cpp">
       <Filter>Source Files\SDL</Filter>
     </ClCompile>
+    <ClCompile Include="CM_BruteForce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CM_QuadTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CM_AABBTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -184,6 +193,15 @@
     </ClInclude>
     <ClInclude Include="QuadTree_IItem.h">
       <Filter>Header Files\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="CM_BruteForce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CM_QuadTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CM_AABBTree.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

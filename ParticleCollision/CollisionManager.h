@@ -10,8 +10,6 @@
 #include "Plane.h"
 
 #include "CollisionData.h"
-#include "QuadTree.h"
-#include "AABBTree.h"
 
 enum class BroadPhaseType
 {
@@ -21,25 +19,22 @@ enum class BroadPhaseType
 }; //!< Types of broad-phase
 
 /**
- * \brief Stores functionality for and managees collisions.
+ * \brief Stores functionality for and manages collisions.
  */
 
 class CollisionManager
 {
  public:
   CollisionManager(); //!< Constructor.
+  virtual ~CollisionManager();
 
-  void Collide(); //!< Check for collisions and resolve them.
-	void Draw(Renderer& _renderer); //!< Draw the broad-base tree.
+  virtual void Reset() = 0;
 
-  void Add(const std::shared_ptr<Collider>& _collider); //!< Add a collider to be affected.
+  virtual void Collide() = 0;
+  virtual void Draw(Renderer& _renderer) = 0;
 
-  QuadTree::QuadTree<Collider>& GetQuadTree(); //!< Get the quad tree.
-  AABBTree::AABBTree& GetAABBTree(); //!< Get the AABB tree.
+  virtual void Insert(const std::shared_ptr<Collider>& _collider) = 0;
 
-  void SetBroadPhase(BroadPhaseType _type); //!< Set the type of broad-phase to use.
-  BroadPhaseType GetBroadPhase() const; //!< Get the type of broad-phase being used.
-  
   /**
    * \brief Do collision check and response.
    * \param [in, out] _lhs
@@ -117,14 +112,6 @@ class CollisionManager
    * \param [in]      _data Information about the collision.
    */
   static void ResolveCollision(Collider& _a, Collider& _b, const CollisionData& _data);
-
- private:
-  BroadPhaseType m_broadPhase; //!< Type of broad-phase being used.
-
-  std::vector<std::shared_ptr<Collider>> m_colliders; //!< List of colliders to use.
-
-  QuadTree::QuadTree<Collider> m_quadTree; //!< Quad tree broad-phase.
-  AABBTree::AABBTree m_aabbTree; //!< AABB tree broad-phase.
 };
 
 #endif //_COLLISIONMANAGER_H_

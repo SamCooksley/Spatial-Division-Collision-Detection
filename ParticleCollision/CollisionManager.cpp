@@ -3,97 +3,11 @@
 #include "QuadTree.h"
 #include <iostream>
 
-CollisionManager::CollisionManager() :
-	m_quadTree(Vector2(800, 600))
+CollisionManager::CollisionManager()
 { }
 
-void CollisionManager::Collide()
-{
-  switch (m_broadPhase)
-  {
-    case BroadPhaseType::NONE:
-    {
-      if (m_colliders.empty()) { break; }
-
-      //go through all combonations and test for a collision.
-      for (size_t i = 0; i < m_colliders.size() - 1; ++i)
-      {
-        for (size_t j = i + 1; j < m_colliders.size(); ++j)
-        {
-          Collide(*m_colliders.at(i), *m_colliders.at(j));
-        }
-      }
-      break;
-    }
-    case BroadPhaseType::QUAD:
-    {
-      //define what to do with objects in a bucket.
-      //this should not be needs as Collide is a static method.
-      auto collide = [this](Collider* _a, Collider* _b)
-      {
-        CollisionManager::Collide(*_a, *_b);
-      };
-
-      m_quadTree.CheckCollision(collide);
-
-      break;
-    }
-    case BroadPhaseType::AABB:
-    {
-      m_aabbTree.Update();
-
-      auto& pairs = m_aabbTree.GetColliderPairs();
-
-      for (auto& pair : pairs)
-      {
-        Collide(*pair.a, *pair.b);
-      }
-      break;
-    }
-  }
-}
-
-void CollisionManager::Draw(Renderer &_renderer)
-{
-  switch (m_broadPhase)
-  {
-    case BroadPhaseType::QUAD:
-    {
-      m_quadTree.Draw(_renderer);
-      break;
-    }
-    case BroadPhaseType::AABB:
-    {
-      m_aabbTree.Draw(_renderer);
-      break;
-    }
-  }
-}
-
-void CollisionManager::Add(const std::shared_ptr<Collider>& _collider)
-{
-  m_colliders.emplace_back(_collider);
-}
-
-QuadTree::QuadTree<Collider>& CollisionManager::GetQuadTree()
-{
-  return m_quadTree;
-}
-
-AABBTree::AABBTree& CollisionManager::GetAABBTree()
-{
-  return m_aabbTree;
-}
-
-void CollisionManager::SetBroadPhase(BroadPhaseType _type)
-{
-  m_broadPhase = _type;
-}
-
-BroadPhaseType CollisionManager::GetBroadPhase() const
-{
-  return m_broadPhase;
-}
+CollisionManager::~CollisionManager()
+{ }
 
 void CollisionManager::Collide(Collider &_a, Collider &_b)
 {

@@ -1,14 +1,7 @@
 ﻿  Game.cpp
 d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\game.cpp(32): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  CollisionManager.cpp
+  CM_AABBTree.cpp
   Generating Code...
-  Compiling...
-  Polygon.cpp
-  Plane.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.cpp(20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Skipping... (no relevant changes detected)
   Main.cpp
-  Collider.cpp
-  Circle.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
   ParticleCollision.vcxproj -> D:\Users\Sam\Documents\Projects\Programming\Collision\Spatial-Division-Collision-Detection\Debug\ParticleCollision.exe

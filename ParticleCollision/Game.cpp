@@ -73,7 +73,8 @@ bool Game::Init()
   AddCircles(50);
 
 
-	m_collisionManager.SetBroadPhase(BroadPhaseType::QUAD);
+  m_current = &m_brute;
+
   return true;
 }
 
@@ -137,10 +138,10 @@ void Game::HandleEvents()
         //get the key name
         switch (e.key.keysym.scancode)
         {
-          case SDL_SCANCODE_ESCAPE: { Quit();                  break; }
-					case SDL_SCANCODE_1: { m_collisionManager.SetBroadPhase(BroadPhaseType::NONE); break; }
-					case SDL_SCANCODE_2: { m_collisionManager.SetBroadPhase(BroadPhaseType::QUAD); break; }
-					case SDL_SCANCODE_3: { m_collisionManager.SetBroadPhase(BroadPhaseType::AABB); break; }
+          case SDL_SCANCODE_ESCAPE: { Quit(); break; }
+          case SDL_SCANCODE_1: { m_current = &m_brute; break; }
+					case SDL_SCANCODE_2: { m_current = &m_quad;  break; }
+					case SDL_SCANCODE_3: { m_current = &m_aabb;  break; }
         }
         break;
       }
@@ -150,24 +151,17 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	QuadTree::QuadTree<Collider>& tree = m_collisionManager.GetQuadTree();
-	tree.Reset();
-
-	AABBTree::AABBTree& aabbtree = m_collisionManager.GetAABBTree();
-	//aabbtree.Reset();
+  m_current->Reset();
 
   //update all the particles
   for (auto& c : m_colliders)
   {
     //move the particle
     c->Update(m_deltaTime);
-		//if (m_collisionManager.GetBroadPhase() == BroadPhaseType::QUAD)
-		{
-			tree.Insert(c.get());
-		}
+    m_current->Insert(c);
   }
 
-  m_collisionManager.Collide();
+  m_current->Collide();
 }
 
 void Game::Render()
@@ -177,7 +171,7 @@ void Game::Render()
 	
   m_renderer.SetRenderColour(255, 0, 0);
 
-  m_collisionManager.Draw(m_renderer);
+  m_current->Draw(m_renderer);
 
   m_renderer.SetRenderColour(0, 0, 0);
 
@@ -212,12 +206,10 @@ void Game::AddPolygons(int _count)
 		);
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 10.0f;
-    std::shared_ptr<Polygon> poly = std::make_shared<Polygon>(pos, vel);
+    auto poly = std::make_shared<Polygon>(pos, vel);
     
-    m_colliders.emplace_back(poly);   
-    m_collisionManager.Add(poly);
-    //add to the broad-phase collision AABB tree.
-    m_collisionManager.GetAABBTree().Insert(poly->AsAABBItem());
+    m_colliders.emplace_back(poly);  
+    m_aabb.Add(poly);
   }
 }
 
@@ -236,12 +228,10 @@ void Game::AddCircles(int _count)
 		);
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;
-    std::shared_ptr<Circle> circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 1);
+    auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 1);
     
     m_colliders.emplace_back(circle);
-    m_collisionManager.Add(circle);
-    //add to the broad-phase collision AABB tree.
-    m_collisionManager.GetAABBTree().Insert(circle->AsAABBItem());
+    m_aabb.Add(circle);
   }
 }
 
@@ -249,7 +239,5 @@ void Game::AddPlane(const Vector2 &_position, const Vector2 &_normal, float _wid
 {
   auto p = std::make_shared<Plane>(_position, _normal, _width);
   m_colliders.emplace_back(p);
-  m_collisionManager.Add(p);
-  //add to the broad-phase collision AABB tree.
-  m_collisionManager.GetAABBTree().Insert(p->AsAABBItem());
+  m_aabb.Add(p);
 }
