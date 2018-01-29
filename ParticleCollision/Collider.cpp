@@ -3,7 +3,7 @@
 #include "CollisionManager.h"
 
 Collider::Collider(ColliderType _type, const Vector2 &_position, const Vector2 &_velocity) : 
-  m_position(_position), m_velocity(_velocity), m_aabbItem(*this)
+  m_position(_position), m_velocity(_velocity)
 {
   m_type = _type;
 
@@ -18,10 +18,10 @@ void Collider::Update(float _deltaTime)
   //velocity.y += 100.0f * _deltaTime;
   m_position += m_velocity * _deltaTime;
 
-	Range x = MinMaxOnAxis(Vector2(1.f, 0.f));
-	Range y = MinMaxOnAxis(Vector2(0.f, 1.f));
+  Range x = MinMaxOnAxis(Vector2(1.f, 0.f));
+  Range y = MinMaxOnAxis(Vector2(0.f, 1.f));
 
-	m_aabb = Rect(x.min, y.min, x.max, y.max);
+  m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
 void Collider::Draw(Renderer& _renderer)
@@ -45,9 +45,4 @@ const Rect& Collider::GetAABB() const
 void Collider::DrawRect(Renderer& _renderer) const
 {
   m_aabb.Draw(_renderer);
-}
-
-AABBTree::Item* Collider::AsAABBItem()
-{
-	return static_cast<AABBTree::Item*>(&m_aabbItem);
 }

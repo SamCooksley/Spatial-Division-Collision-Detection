@@ -13,7 +13,8 @@ void CM_AABBTree::Collide()
 {
   m_aabbTree.Update();
 
-  auto& pairs = m_aabbTree.GetColliderPairs();
+  AABBTree::PairList<Collider> pairs;
+  m_aabbTree.GetColliderPairs(pairs);
 
   for (auto& pair : pairs)
   {
@@ -31,5 +32,5 @@ void CM_AABBTree::Insert(const std::shared_ptr<Collider>& _collider)
 
 void CM_AABBTree::Add(const std::shared_ptr<Collider>& _collider)
 {
-  m_aabbTree.Insert(_collider->AsAABBItem());
+  m_aabbTree.Insert(_collider.get());
 }

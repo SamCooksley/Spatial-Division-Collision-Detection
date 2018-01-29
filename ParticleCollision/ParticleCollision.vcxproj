@@ -77,8 +77,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AABBTree.cpp" />
-    <ClCompile Include="AABBTreeItem.cpp" />
-    <ClCompile Include="AABBTreeItemCollider.cpp" />
     <ClCompile Include="AABBTreeNode.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CM_AABBTree.cpp" />
@@ -103,14 +101,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABBTree.h" />
-    <ClInclude Include="AABBTreeItem.h" />
-    <ClInclude Include="AABBTreeItemCollider.h" />
-    <ClInclude Include="AABBTreeNode.h" />
+    <ClInclude Include="AABBTree_IItem.h" />
+    <ClInclude Include="AABB_TreeNode.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CM_AABBTree.h" />
     <ClInclude Include="CM_QuadTree.h" />
     <ClInclude Include="Collider.h" />
-    <ClInclude Include="ColliderPair.h" />
+    <ClInclude Include="AABB_Pair.h" />
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CM_BruteForce.h" />

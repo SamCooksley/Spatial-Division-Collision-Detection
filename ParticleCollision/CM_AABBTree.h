@@ -21,7 +21,7 @@ class CM_AABBTree : public CollisionManager
   void Add(const std::shared_ptr<Collider>& _collider);
 
  private:
-  AABBTree::AABBTree m_aabbTree;
+  AABBTree::AABBTree<Collider> m_aabbTree;
 };
 
 #endif //_CM_AABBTREE_H_

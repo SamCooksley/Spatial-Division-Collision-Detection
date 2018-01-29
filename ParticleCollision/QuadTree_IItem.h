@@ -13,7 +13,7 @@ namespace QuadTree
     virtual const Vector2& GetPosition() const = 0;
     virtual const Rect& GetAABB() const = 0;
 
-		virtual void DrawRect(Renderer& _renderer) const = 0;
+    virtual void DrawRect(Renderer& _renderer) const = 0;
   };
 }
 

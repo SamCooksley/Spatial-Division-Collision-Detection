@@ -62,7 +62,7 @@ bool Game::Init()
 
   m_renderer.SetClearColour(240, 240, 240);
 
-	m_spawnRect = Rect(100, 100, 700, 500);
+  m_spawnRect = Rect(100, 100, 700, 500);
   
   AddPlane(Vector2(100, 600/2), Vector2( 1.0f,  0.0f), 400);
   AddPlane(Vector2(700, 600/2), Vector2(-1.0f,  0.0f), 400);
@@ -140,8 +140,8 @@ void Game::HandleEvents()
         {
           case SDL_SCANCODE_ESCAPE: { Quit(); break; }
           case SDL_SCANCODE_1: { m_current = &m_brute; break; }
-					case SDL_SCANCODE_2: { m_current = &m_quad;  break; }
-					case SDL_SCANCODE_3: { m_current = &m_aabb;  break; }
+          case SDL_SCANCODE_2: { m_current = &m_quad;  break; }
+          case SDL_SCANCODE_3: { m_current = &m_aabb;  break; }
         }
         break;
       }
@@ -168,7 +168,7 @@ void Game::Render()
 {
   //clear the renderer
   m_renderer.Clear();
-	
+  
   m_renderer.SetRenderColour(255, 0, 0);
 
   m_current->Draw(m_renderer);
@@ -180,7 +180,7 @@ void Game::Render()
   {
     c->Draw(m_renderer);
   }
-	
+  
   //Display to the window.
   m_renderer.Render(); 
 }
@@ -200,10 +200,10 @@ void Game::AddPolygons(int _count)
   for (int i = 0; i < _count; ++i)
   {
     //get a random position inside the the spawn rect.
-		Vector2 pos(
-			m_spawnRect.min.x + rand() % width,
-			m_spawnRect.min.y + rand() % height
-		);
+    Vector2 pos(
+      m_spawnRect.min.x + rand() % width,
+      m_spawnRect.min.y + rand() % height
+    );
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 10.0f;
     auto poly = std::make_shared<Polygon>(pos, vel);
@@ -225,7 +225,7 @@ void Game::AddCircles(int _count)
     Vector2 pos(
       m_spawnRect.min.x + rand() % width,
       m_spawnRect.min.y + rand() % height
-		);
+    );
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;
     auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 1);

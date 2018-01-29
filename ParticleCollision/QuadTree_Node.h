@@ -102,7 +102,7 @@ namespace QuadTree
       }
     }
 
-	 private:
+   private:
     void Divide()
     {
       if (!IsLeaf()) { return; }
@@ -204,7 +204,7 @@ namespace QuadTree
      * \brief Move an item to the parent.
      * \param [in] _index Item index to move up.
      */
-		bool PushItemUp(int _index)
+    bool PushItemUp(int _index)
     {
       if (m_parent == nullptr) { return false; }
 
@@ -224,11 +224,12 @@ namespace QuadTree
     QuadTree<T>* m_tree; 
     Node<T>* m_parent;
 
+    std::vector<std::unique_ptr<Node>> m_children;
+
+    ItemList m_items;
+
     Rect m_rect;
     int m_depth;
-
-    std::vector<std::unique_ptr<Node>> m_children;
-    ItemList m_items;
   };
 }
 

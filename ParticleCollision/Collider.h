@@ -9,7 +9,7 @@
 #include "CollisionData.h"
 
 #include "QuadTree_IItem.h"
-#include "AABBTreeItemCollider.h"
+#include "AABBTree_IItem.h"
 
 class Circle;
 class Polygon;
@@ -27,7 +27,7 @@ enum class ColliderType
  * \brief Base class for colliders.
  */
 
-class Collider : public QuadTree::IItem
+class Collider : public QuadTree::IItem, public AABBTree::IItem
 {
   friend class CollisionManager;
 
@@ -50,14 +50,13 @@ class Collider : public QuadTree::IItem
    */
   virtual Range MinMaxOnAxis(const Vector2& _axis) const = 0;
 
-  const Vector2& GetPosition() const; //!< Get the position.
   const Vector2& GetVelocity() const; //!< Get the velocity. 
+  
+  const Vector2& GetPosition() const override; //!< Get the position.
 
-  const Rect& GetAABB() const; //!< Get the bounding box.
+  const Rect& GetAABB() const override; //!< Get the bounding box.
 
-  void DrawRect(Renderer& _renderer) const;
-
-	AABBTree::Item* AsAABBItem();
+  void DrawRect(Renderer& _renderer) const override;
 
  protected:
   Vector2 m_position; //!< position.
@@ -67,8 +66,6 @@ class Collider : public QuadTree::IItem
   float m_bounciness; //!< energy loss.
 
   Rect m_aabb; //!< Bounds of the collider.
-
-  AABBTree::ItemCollider m_aabbItem; //!< Object used for aabb trees.
 
  private:
   ColliderType m_type; //!< Type of collider.

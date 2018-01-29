@@ -96,12 +96,6 @@
     <ClCompile Include="Range.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AABBTreeItem.cpp">
-      <Filter>Source Files\AABBTree</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBTreeItemCollider.cpp">
-      <Filter>Source Files\AABBTree</Filter>
-    </ClCompile>
     <ClCompile Include="SDL_Functions.cpp">
       <Filter>Source Files\SDL</Filter>
     </ClCompile>
@@ -170,20 +164,8 @@
     <ClInclude Include="AABBTree.h">
       <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderPair.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Range.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBTreeNode.h">
-      <Filter>Header Files\AABBTree</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBTreeItem.h">
-      <Filter>Header Files\AABBTree</Filter>
-    </ClInclude>
-    <ClInclude Include="AABBTreeItemCollider.h">
-      <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
     <ClInclude Include="SDL_Functions.h">
       <Filter>Header Files\SDL</Filter>
@@ -202,6 +184,15 @@
     </ClInclude>
     <ClInclude Include="CM_AABBTree.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBTree_IItem.h">
+      <Filter>Header Files\AABBTree</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB_TreeNode.h">
+      <Filter>Header Files\AABBTree</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB_Pair.h">
+      <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
