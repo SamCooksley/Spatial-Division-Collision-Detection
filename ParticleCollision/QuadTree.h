@@ -1,40 +1,60 @@
 #ifndef _QUADTREE_H_
 #define _QUADTREE_H_
 
-#include "QuadTreeNode.h"
+#include "QuadTree_Node.h"
 
 namespace QuadTree
 {
   //TODO: write a resize function.
+  template <class T>
   class QuadTree
   {
-  private:
-    Node m_root;
+    friend class Node<T>;
 
-  public:
-    QuadTree(const Rect &_world, int _maxItemsPerNode);
-    QuadTree(const Vector2 &_worldSize, int _maxItemsPerNode);
-    ~QuadTree(void);
+   public:
+    QuadTree(const Rect& _world) :
+      m_maxItems(10), m_maxDepth(5),
+      m_xDivisions(2), m_yDivisions(2)
+    {
+      m_root.reset(
+        new Node<T>(this, nullptr, _world, 0)
+      );
+    }
+    QuadTree(const Vector2& _worldSize) :
+      QuadTree(Rect(Vector2(.0f, .0f), _worldSize))
+    { }
+    ~QuadTree()
+    { }
 
-		void Reset(void)
+		void Reset()
 		{
-			m_root.Destroy();
+			m_root->Clear();
 		}
 
-		void Clear(void)
+    void Insert(T* _item)
+    {
+      m_root->Insert(_item);
+    }
+
+    void Draw(Renderer& _renderer)
+    {
+      m_root->Draw(_renderer);
+    }
+
+		template<typename U>
+		void CheckCollision(U& _check)
 		{
-			m_root.Clear();
+			m_root->CheckCollision(_check);
 		}
 
-    void Insert(Item *_item);
+   private:
+    std::unique_ptr<Node<T>> m_root;
 
-		void Draw(Renderer &_renderer);
+    size_t m_maxItems;
+    int m_maxDepth;
 
-		template<typename T>
-		void CheckCollision(T _check)
-		{
-			m_root.CheckCollision(_check);
-		}
+    int m_xDivisions;
+    int m_yDivisions;
   };
 }
 

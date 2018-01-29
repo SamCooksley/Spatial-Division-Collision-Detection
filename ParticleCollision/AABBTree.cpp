@@ -171,8 +171,14 @@ namespace AABBTree
 				//if they overlap
 				if (_a->m_item->GetRect().Intersects(_b->m_item->GetRect()))
 				{
-					m_pairs.emplace_back(*(Collider*)_a->m_item->Get(), 
-															 *(Collider*)_b->m_item->Get());
+          //TODO: not generic.
+          ColliderPair pair = { 
+            static_cast<Collider*>(_a->m_item->Get()), 
+            static_cast<Collider*>(_b->m_item->Get()) 
+          };
+          m_pairs.emplace_back(pair);
+					/*m_pairs.emplace_back(*(Collider*)_a->m_item->Get(), 
+															 *(Collider*)_b->m_item->Get());*/
 				}
 			}
 			else

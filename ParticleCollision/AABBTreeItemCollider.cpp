@@ -15,11 +15,11 @@ namespace AABBTree
 
 	Vector2 ItemCollider::GetPosition(void) const
 	{
-		return m_collider->Position();
+		return m_collider->GetPosition();
 	}
 
 	Rect ItemCollider::GetRect(void) const
 	{
-		return m_collider->AABB();
+		return m_collider->GetAABB();
 	}
 }

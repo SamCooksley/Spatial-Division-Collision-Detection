@@ -3,7 +3,7 @@
 #include "CollisionManager.h"
 
 Collider::Collider(ColliderType _type, const Vector2 &_position, const Vector2 &_velocity) : 
-  m_position(_position), m_velocity(_velocity), m_quadItem(*this), m_aabbItem(*this)
+  m_position(_position), m_velocity(_velocity), m_aabbItem(*this)
 {
   m_type = _type;
 
@@ -27,27 +27,27 @@ void Collider::Update(float _deltaTime)
 void Collider::Draw(Renderer& _renderer)
 { }
 
-const Vector2& Collider::Position() const
+const Vector2& Collider::GetPosition() const
 {
   return m_position;
 }
 
-const Vector2& Collider::Velocity() const
+const Vector2& Collider::GetVelocity() const
 {
   return m_velocity;
 }
 
-const Rect& Collider::AABB() const
+const Rect& Collider::GetAABB() const
 {
   return m_aabb;
 }
 
-QuadTree::Item* Collider::AsQuadItem() const
+void Collider::DrawRect(Renderer& _renderer) const
 {
-	return static_cast<QuadTree::Item*>(&m_quadItem);
+  m_aabb.Draw(_renderer);
 }
 
-AABBTree::Item* Collider::AsAABBItem() const
+AABBTree::Item* Collider::AsAABBItem()
 {
 	return static_cast<AABBTree::Item*>(&m_aabbItem);
 }

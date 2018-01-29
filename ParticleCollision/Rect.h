@@ -55,20 +55,20 @@ class Rect
 	 * \param [in] _rect Rect to query.
 	 * \return Returns true if the rectangle is contained within this Rectangle.
 	 */
-	bool Contains(const Rect& _rect)     const;
+	bool Contains(const Rect& _rect) const;
 
 	/**
 	 * \brief Checks if the rectangle overlaps this.
 	 * \param [in] _rect Rect to query.
 	 * \return Returns true if the rectangles overlap.
 	 */
-  bool Intersects(const Rect& _rect)   const;
+  bool Intersects(const Rect& _rect) const;
 
 	/** 
 	 * \brief Draws the rectangle.
 	 * \param [in] _renderer Renderer to draw to.
 	 */
-	void Draw(Renderer& _renderer);
+	void Draw(Renderer& _renderer) const;
 
 	/**
 	 * \brief Checks if the rectangles overlap.

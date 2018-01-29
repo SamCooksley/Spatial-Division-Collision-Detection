@@ -78,7 +78,7 @@ bool Rect::Intersects(const Rect& _rect) const
          this->max.y >= _rect.min.y;
 }
 
-void Rect::Draw(Renderer& _renderer)
+void Rect::Draw(Renderer& _renderer) const
 {
 	SDL_Rect rect = {
 		Floor(min.x),  Floor(min.y),

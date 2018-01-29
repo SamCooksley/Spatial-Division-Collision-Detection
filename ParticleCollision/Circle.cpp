@@ -1,6 +1,6 @@
 #include "Circle.h"
 
-#include "SDL.h"
+#include "SDL_Functions.h"
 #include "CollisionManager.h"
 
 Circle::Circle(const Vector2& _position, const Vector2& _velocity, float _radius) : Collider(ColliderType::CIRCLE, _position, _velocity)
@@ -19,22 +19,22 @@ void Circle::Draw(Renderer& _renderer)
   SDL::DrawCircle(_renderer, m_position.x, m_position.y, m_radius);
 }
 
-bool Circle::CheckCollision(const Collider& _other, CollisionData& _data) const 
+bool Circle::CheckCollision(Collider& _other, CollisionData& _data) 
 {
   return _other.CheckCollision(*this, _data);
 }
 
-bool Circle::CheckCollision(const Circle& _other, CollisionData& _data) const 
+bool Circle::CheckCollision(Circle& _other, CollisionData& _data) 
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
 
-bool Circle::CheckCollision(const Polygon& _other, CollisionData& _data) const 
+bool Circle::CheckCollision(Polygon& _other, CollisionData& _data) 
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
 
-bool Circle::CheckCollision(const Plane& _other, CollisionData& _data) const
+bool Circle::CheckCollision(Plane& _other, CollisionData& _data)
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }

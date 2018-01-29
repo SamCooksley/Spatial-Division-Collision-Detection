@@ -73,7 +73,7 @@ bool Game::Init()
   AddCircles(50);
 
 
-	m_collisionManager.SetDivisionType(CollisionManager::DivisionType::AABB);
+	m_collisionManager.SetBroadPhase(BroadPhaseType::QUAD);
   return true;
 }
 
@@ -138,9 +138,9 @@ void Game::HandleEvents()
         switch (e.key.keysym.scancode)
         {
           case SDL_SCANCODE_ESCAPE: { Quit();                  break; }
-					case SDL_SCANCODE_1: { m_collisionManager.SetDivisionType(CollisionManager::DivisionType::NONE); break; }
-					case SDL_SCANCODE_2: { m_collisionManager.SetDivisionType(CollisionManager::DivisionType::QUAD); break; }
-					case SDL_SCANCODE_3: { m_collisionManager.SetDivisionType(CollisionManager::DivisionType::AABB); break; }
+					case SDL_SCANCODE_1: { m_collisionManager.SetBroadPhase(BroadPhaseType::NONE); break; }
+					case SDL_SCANCODE_2: { m_collisionManager.SetBroadPhase(BroadPhaseType::QUAD); break; }
+					case SDL_SCANCODE_3: { m_collisionManager.SetBroadPhase(BroadPhaseType::AABB); break; }
         }
         break;
       }
@@ -150,10 +150,10 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	QuadTree::QuadTree &tree = m_collisionManager.GetTree();
+	QuadTree::QuadTree<Collider>& tree = m_collisionManager.GetQuadTree();
 	tree.Reset();
 
-	AABBTree::AABBTree &aabbtree = m_collisionManager.GetAABBTree();
+	AABBTree::AABBTree& aabbtree = m_collisionManager.GetAABBTree();
 	//aabbtree.Reset();
 
   //update all the particles
@@ -161,16 +161,11 @@ void Game::Update()
   {
     //move the particle
     c->Update(m_deltaTime);
-		if (m_collisionManager.GetDivisionType() == CollisionManager::DivisionType::QUAD)
+		//if (m_collisionManager.GetBroadPhase() == BroadPhaseType::QUAD)
 		{
-			tree.Insert(c->AsItem());
+			tree.Insert(c.get());
 		}
   }
-
-	if (m_collisionManager.GetDivisionType() == CollisionManager::DivisionType::AABB)
-	{
-		aabbtree.Update();
-	}
 
   m_collisionManager.Collide();
 }
@@ -180,6 +175,8 @@ void Game::Render()
   //clear the renderer
   m_renderer.Clear();
 	
+  m_renderer.SetRenderColour(255, 0, 0);
+
   m_collisionManager.Draw(m_renderer);
 
   m_renderer.SetRenderColour(0, 0, 0);
@@ -239,7 +236,7 @@ void Game::AddCircles(int _count)
 		);
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;
-    std::shared_ptr<Circle> circle = std::make_shared<Circle>(pos, vel, 2 + rand() % 1);
+    std::shared_ptr<Circle> circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 1);
     
     m_colliders.emplace_back(circle);
     m_collisionManager.Add(circle);

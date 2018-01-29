@@ -16,7 +16,7 @@ class Circle : public Collider
 
   void Draw(Renderer &_renderer) override; //!< Draw the circle.
 
-  bool CheckCollision(const Collider &_other, CollisionData& _data) const override; //!< Used for double dispatch.
+  bool CheckCollision(Collider& _other, CollisionData& _data) override; //!< Used for double dispatch.
   
   /**
    * \brief Check if two circles have collided.
@@ -24,7 +24,7 @@ class Circle : public Collider
    * \param [out] _data  Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Circle& _other, CollisionData& _data) const override;
+  bool CheckCollision(Circle& _other, CollisionData& _data) override;
   
   /**
    * \brief Check if another the plane has collided with a polygon.
@@ -32,7 +32,7 @@ class Circle : public Collider
    * \param [out] _data   Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Polygon& _other, CollisionData& _data) const override;
+  bool CheckCollision(Polygon& _other, CollisionData& _data) override;
   
   /**
    * \brief Check if there is a collision between a plane and the circle.
@@ -40,7 +40,7 @@ class Circle : public Collider
    * \param [out] _data  Information about the collision.
    * \return Returns true if to objects overlap.
    */
-  bool CheckCollision(const Plane& _other, CollisionData& _data) const override;
+  bool CheckCollision(Plane& _other, CollisionData& _data) override;
 
   /**
    * \brief Get the area of the collider on an axis.

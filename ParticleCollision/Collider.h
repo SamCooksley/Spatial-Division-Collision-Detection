@@ -8,7 +8,7 @@
 
 #include "CollisionData.h"
 
-#include "ItemCollider.h"
+#include "QuadTree_IItem.h"
 #include "AABBTreeItemCollider.h"
 
 class Circle;
@@ -27,7 +27,7 @@ enum class ColliderType
  * \brief Base class for colliders.
  */
 
-class Collider
+class Collider : public QuadTree::IItem
 {
   friend class CollisionManager;
 
@@ -38,10 +38,10 @@ class Collider
   virtual void Update(float _deltaTime); //!< Simulate the object. Move the object.
   virtual void Draw(Renderer& _renderer); //!< Render the collider's shape.
 
-  virtual bool CheckCollision(const Collider& _other, CollisionData& _data) const = 0; //!< Used for double dispatch.
-  virtual bool CheckCollision(const Circle&   _other, CollisionData& _data) const = 0; //!< Collide against cicles.
-  virtual bool CheckCollision(const Polygon&  _other, CollisionData& _data) const = 0; //!< Collide against polygons.
-  virtual bool CheckCollision(const Plane&    _other, CollisionData& _data) const = 0; //!< Collide against planes.
+  virtual bool CheckCollision(Collider& _other, CollisionData& _data) = 0; //!< Used for double dispatch.
+  virtual bool CheckCollision(Circle&   _other, CollisionData& _data) = 0; //!< Collide against cicles.
+  virtual bool CheckCollision(Polygon&  _other, CollisionData& _data) = 0; //!< Collide against polygons.
+  virtual bool CheckCollision(Plane&    _other, CollisionData& _data) = 0; //!< Collide against planes.
 
   /**
    * \brief Get the range of the collider on the axis. 
@@ -50,13 +50,14 @@ class Collider
    */
   virtual Range MinMaxOnAxis(const Vector2& _axis) const = 0;
 
-  const Vector2& Position() const; //!< Get the position.
-  const Vector2& Velocity() const; //!< Get the velocity. 
+  const Vector2& GetPosition() const; //!< Get the position.
+  const Vector2& GetVelocity() const; //!< Get the velocity. 
 
-  const Rect& AABB() const; //!< Get the AABB of the collider.
+  const Rect& GetAABB() const; //!< Get the bounding box.
 
-	QuadTree::Item* AsQuadItem() const; 
-	AABBTree::Item* AsAABBItem() const;
+  void DrawRect(Renderer& _renderer) const;
+
+	AABBTree::Item* AsAABBItem();
 
  protected:
   Vector2 m_position; //!< position.
@@ -67,7 +68,6 @@ class Collider
 
   Rect m_aabb; //!< Bounds of the collider.
 
-  QuadTree::ItemCollider m_quadItem; //!< Object used for quad trees.
   AABBTree::ItemCollider m_aabbItem; //!< Object used for aabb trees.
 
  private:

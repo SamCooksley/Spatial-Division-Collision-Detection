@@ -34,9 +34,6 @@
     <Filter Include="Header Files\QuadTree">
       <UniqueIdentifier>{4efc6bf4-39f4-484a-926c-e9626bcab261}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\QuadTree">
-      <UniqueIdentifier>{0abe6e00-8fb5-4300-88fe-9900ed37f5df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\AABBTree">
       <UniqueIdentifier>{4c9df528-14d7-42c8-9738-ca96eebee5b0}</UniqueIdentifier>
     </Filter>
@@ -87,12 +84,6 @@
     <ClCompile Include="Plane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QuadTree.cpp">
-      <Filter>Source Files\QuadTree</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTreeNode.cpp">
-      <Filter>Source Files\QuadTree</Filter>
-    </ClCompile>
     <ClCompile Include="Rect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,12 +92,6 @@
     </ClCompile>
     <ClCompile Include="AABBTreeNode.cpp">
       <Filter>Source Files\AABBTree</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTreeItem.cpp">
-      <Filter>Source Files\QuadTree</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemCollider.cpp">
-      <Filter>Source Files\QuadTree</Filter>
     </ClCompile>
     <ClCompile Include="Range.cpp">
       <Filter>Source Files</Filter>
@@ -167,9 +152,6 @@
     <ClInclude Include="Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTreeNode.h">
-      <Filter>Header Files\QuadTree</Filter>
-    </ClInclude>
     <ClInclude Include="QuadTree.h">
       <Filter>Header Files\QuadTree</Filter>
     </ClInclude>
@@ -178,12 +160,6 @@
     </ClInclude>
     <ClInclude Include="AABBTree.h">
       <Filter>Header Files\AABBTree</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadTreeItem.h">
-      <Filter>Header Files\QuadTree</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemCollider.h">
-      <Filter>Header Files\QuadTree</Filter>
     </ClInclude>
     <ClInclude Include="ColliderPair.h">
       <Filter>Header Files</Filter>
@@ -202,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="SDL_Functions.h">
       <Filter>Header Files\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree_Node.h">
+      <Filter>Header Files\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree_IItem.h">
+      <Filter>Header Files\QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

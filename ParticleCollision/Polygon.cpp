@@ -65,23 +65,23 @@ void Polygon::Draw(Renderer& _renderer)
   SDL_RenderDrawLines(_renderer.Get(), &points[0], points.size());
 }
 
-bool Polygon::CheckCollision(const Collider& _other, CollisionData& _data) const
+bool Polygon::CheckCollision(Collider& _other, CollisionData& _data)
 {
   //go through the other collider with this object now specified.
   return _other.CheckCollision(*this, _data);
 }
 
-bool Polygon::CheckCollision(const Circle& _other, CollisionData& _data) const
+bool Polygon::CheckCollision(Circle& _other, CollisionData& _data)
 {
   return CollisionManager::CheckCollision(_other, *this, _data);
 }
 
-bool Polygon::CheckCollision(const Polygon& _other, CollisionData& _data) const
+bool Polygon::CheckCollision(Polygon& _other, CollisionData& _data)
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
 
-bool Polygon::CheckCollision(const Plane& _other, CollisionData& _data) const
+bool Polygon::CheckCollision(Plane& _other, CollisionData& _data)
 {
   return CollisionManager::CheckCollision(*this, _other, _data);
 }
@@ -109,7 +109,7 @@ Range Polygon::MinMaxOnAxis(const Vector2& _axis) const
   }
 
   //add the position to move it to world space.
-  float pos = Vector2::Dot(position, _axis);
+  float pos = Vector2::Dot(m_position, _axis);
   range.min += pos;
   range.max += pos;
 
