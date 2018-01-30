@@ -22,9 +22,9 @@ namespace AABBTree
   using NodeList = std::vector<Node<T>*>;
 
   /**
-   * \brief
+   * \brief Element in an aabb tree.
+   * Leaf nodes contain an item. Other nodes contain two other child nodes.
    */
-
   template <class T>
   class Node
   {

@@ -5,6 +5,9 @@
 
 namespace AABBTree
 {
+  /**
+   * \brief Interface for items inside an aabb tree.
+   */
   class IItem
   {
    public:

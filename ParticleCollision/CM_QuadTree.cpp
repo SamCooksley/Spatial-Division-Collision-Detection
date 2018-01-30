@@ -1,7 +1,7 @@
 #include "CM_QuadTree.h"
 
 CM_QuadTree::CM_QuadTree() :
-  m_quadTree(Vector2(800, 600))
+  m_quadTree(Rect(0, 0, 800, 600))
 { }
 
 CM_QuadTree::~CM_QuadTree()
@@ -16,7 +16,7 @@ void CM_QuadTree::Collide()
 {
   //define what to do with objects in a bucket.
   //this should not be needs as Collide is a static method.
-  auto collide = [this](Collider* _a, Collider* _b)
+  auto collide = [&](Collider* _a, Collider* _b)
   {
     CollisionManager::Collide(*_a, *_b);
   };

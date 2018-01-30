@@ -7,6 +7,9 @@
 
 namespace QuadTree
 {
+  /**
+   * \brief Interface for items in a quad tree.
+   */
   class IItem
   {
    public:

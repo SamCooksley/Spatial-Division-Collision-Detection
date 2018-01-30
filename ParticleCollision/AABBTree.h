@@ -10,7 +10,9 @@
 namespace AABBTree
 {
   /**
-   * \brief 
+   * \brief Define an aabb tree.
+   * Store tree and define functions for 
+   * the tree to operate.
    */
   template <class T>
   class AABBTree
@@ -65,7 +67,7 @@ namespace AABBTree
     {
       delete m_root;
       m_root = nullptr;
-    }
+    } //!< clear the tree.
 
     /**
      * \brief Update the structure of the tree.

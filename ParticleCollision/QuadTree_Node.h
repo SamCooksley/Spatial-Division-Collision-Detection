@@ -11,6 +11,10 @@ namespace QuadTree
   template <class T>
   class QuadTree;
 
+  /**
+   * \brief Element in a quad tree node.
+   * A leaf contains a bucket of items. Other nodes contain child nodes.
+   */
   template <class T>
   class Node
   {
