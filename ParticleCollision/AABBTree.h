@@ -1,7 +1,7 @@
 #ifndef _AABBTREE_H_
 #define _AABBTREE_H_
 
-#include "AABB_TreeNode.h"
+#include "AABB_Node.h"
 
 #include "AABB_Pair.h"
 
@@ -9,6 +9,9 @@
 
 namespace AABBTree
 {
+  /**
+   * \brief 
+   */
   template <class T>
   class AABBTree
   {
@@ -39,7 +42,7 @@ namespace AABBTree
       {
         Node<T>* node = new Node<T>(this, nullptr);
         node->SetLeaf(_item);
-        InsertNode(node, &m_root);
+        InsertNode(node, m_root);
       }
     }
 
@@ -48,7 +51,15 @@ namespace AABBTree
      * \param [in] _item Item to remove.
      */
     void Remove(T* _item)
-    { }
+    {
+      Node<T>* node = nullptr;
+      //Find the node that contains the item.
+      if (m_root->Find(_item, node))
+      {
+        RemoveNode(node);
+        delete node;
+      }
+    }
 
     void Reset()
     {
@@ -84,11 +95,15 @@ namespace AABBTree
 
           node->UpdateAABB();
           //reinsert the node to the tree.
-          InsertNode(node, &m_root);
+          InsertNode(node, m_root);
         }
       }
     }
 
+    /**
+     * \brief Get a list of item pairs.
+     * \param [out] _pairs Pairs in the tree.
+     */
     void GetColliderPairs(PairList<T>& _pairs)
     {
       _pairs.clear();
@@ -101,7 +116,8 @@ namespace AABBTree
         return;
       }
 
-      ResetCross(m_root);
+      //get the pairs.
+      m_root->ResetCross();
       CalculatePairs(m_root->m_children[0], m_root->m_children[1], _pairs);
 
       return;
@@ -119,17 +135,19 @@ namespace AABBTree
     /**
      * \brief Insert a node.
      * \param [in]      _node   Node to insert.
-     * \param [in, out] _parent Parent of the new node.
+     * \param [in, out] _parent Parent of the new node. Can be newly created node.
      */
-    void InsertNode(Node<T>* _node, Node<T>** _parent)
+    void InsertNode(Node<T>* _node, Node<T>*& _parent)
     {
-      Node<T>* p = *_parent;
+      Node<T>* p = _parent;
+      //if the node has an item, split it and create a new parent.
       if (p->IsLeaf())
       {
         Node<T>* newParent = new Node<T>(this, p->m_parent);
         newParent->SetBranch(_node, p);
-        *_parent = newParent;
+        _parent = newParent;
       }
+      //else add it to the child with the smallest rect.
       else
       {
         const Rect& childRect1 = p->m_children[0]->m_rect;
@@ -137,23 +155,22 @@ namespace AABBTree
 
         const Rect& nodeRect = _node->m_rect;
 
-        //float area = childRect1.Area() - nodeRect.Area();
-        float area1 = Rect::Union(childRect1, nodeRect).Area();// - area;
-        float area2 = Rect::Union(childRect2, nodeRect).Area();// - area;
+        float area1 = Rect::Union(childRect1, nodeRect).Area();
+        float area2 = Rect::Union(childRect2, nodeRect).Area();
 
-        //insert the node to the closer node.
+        //insert the node to the node that has a smaller area.
         if (area1 < area2)
         {
-          InsertNode(_node, &p->m_children[0]);
+          InsertNode(_node, p->m_children[0]);
         }
         else
         {
-          InsertNode(_node, &p->m_children[1]);
+          InsertNode(_node, p->m_children[1]);
         }
       }
 
       //update the parent's aabb as it has new area.
-      (*_parent)->UpdateAABB();
+      _parent->UpdateAABB();
     }
 
     /**
@@ -198,7 +215,7 @@ namespace AABBTree
      */
     void CalculatePairs(Node<T>* _a, Node<T>* _b, PairList<T>& _pairs)
     {
-      //
+      //if one is a leaf, make sure it is a.
       if (!_a->IsLeaf() && _b->IsLeaf())
       {
         Node<T>* tmp = _a;
@@ -206,28 +223,34 @@ namespace AABBTree
         _b = tmp;
       }
 
+      //if a has an item.
       if (_a->IsLeaf())
       {
+        //if b also has an item
         if (_b->IsLeaf())
         {
+          //check if items can collide, add them to the list.
           if (Rect::Intersects(_a->m_item->GetAABB(), _b->m_item->GetAABB()))
           {
             Pair<T> pair = { _a->m_item, _b->m_item };
             _pairs.emplace_back(pair);
           }
         }
+        //if b has children, check a with the children.
         else
         {
-          CrossChildren(_b, _pairs);
+          ChildPairs(_b, _pairs);
           CalculatePairs(_a, _b->m_children[0], _pairs);
           CalculatePairs(_a, _b->m_children[1], _pairs);
         }
       }
       else
       {
-        CrossChildren(_a, _pairs);
-        CrossChildren(_b, _pairs);
+        //find pairs inside children. 
+        ChildPairs(_a, _pairs);
+        ChildPairs(_b, _pairs);
 
+        //if the node overlap, check all the children between them.0
         if (Rect::Intersects(_a->m_rect, _b->m_rect))
         {
           CalculatePairs(_a->m_children[0], _b->m_children[0], _pairs);
@@ -240,8 +263,10 @@ namespace AABBTree
 
     /**
      * \brief Get item pairs for the children.
+     * \param [in, out] _node  Parent node.
+     * \param [out]     _pairs List of items that overlap.
      */
-    void CrossChildren(Node<T>* _node, PairList<T>& _pairs)
+    void ChildPairs(Node<T>* _node, PairList<T>& _pairs)
     {
       if (!_node->m_crossed)
       {
@@ -250,19 +275,8 @@ namespace AABBTree
       }
     }
 
-    void ResetCross(Node<T>* _node)
-    {
-      _node->m_crossed = false;
-      if (!_node->IsLeaf())
-      {
-        ResetCross(_node->m_children[0]);
-        ResetCross(_node->m_children[1]);
-      }
-    }
-
-    Node<T> *m_root;
-
-    float m_padding;
+    Node<T>* m_root; //!< Top of the tree.
+    float m_padding; //!< Extra padding on items for leaf nodes.
   };
 }
 

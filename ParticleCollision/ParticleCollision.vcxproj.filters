@@ -37,9 +37,6 @@
     <Filter Include="Header Files\AABBTree">
       <UniqueIdentifier>{4c9df528-14d7-42c8-9738-ca96eebee5b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AABBTree">
-      <UniqueIdentifier>{888359f1-9dfa-4833-81e4-e2c4d7e2d1b2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -86,12 +83,6 @@
     </ClCompile>
     <ClCompile Include="Rect.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBTree.cpp">
-      <Filter>Source Files\AABBTree</Filter>
-    </ClCompile>
-    <ClCompile Include="AABBTreeNode.cpp">
-      <Filter>Source Files\AABBTree</Filter>
     </ClCompile>
     <ClCompile Include="Range.cpp">
       <Filter>Source Files</Filter>
@@ -188,10 +179,10 @@
     <ClInclude Include="AABBTree_IItem.h">
       <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
-    <ClInclude Include="AABB_TreeNode.h">
+    <ClInclude Include="AABB_Pair.h">
       <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
-    <ClInclude Include="AABB_Pair.h">
+    <ClInclude Include="AABB_Node.h">
       <Filter>Header Files\AABBTree</Filter>
     </ClInclude>
   </ItemGroup>

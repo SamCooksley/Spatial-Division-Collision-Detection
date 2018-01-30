@@ -76,8 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABBTree.cpp" />
-    <ClCompile Include="AABBTreeNode.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CM_AABBTree.cpp" />
     <ClCompile Include="CM_QuadTree.cpp" />
@@ -102,7 +100,7 @@
   <ItemGroup>
     <ClInclude Include="AABBTree.h" />
     <ClInclude Include="AABBTree_IItem.h" />
-    <ClInclude Include="AABB_TreeNode.h" />
+    <ClInclude Include="AABB_Node.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="CM_AABBTree.h" />
     <ClInclude Include="CM_QuadTree.h" />

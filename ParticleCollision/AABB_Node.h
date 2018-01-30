@@ -8,6 +8,7 @@
 #include "Rect.h"
 
 #include "AABBTree_IItem.h"
+#include "AABB_Pair.h"
 
 namespace AABBTree
 {
@@ -19,6 +20,10 @@ namespace AABBTree
 
   template <class T>
   using NodeList = std::vector<Node<T>*>;
+
+  /**
+   * \brief
+   */
 
   template <class T>
   class Node
@@ -62,11 +67,37 @@ namespace AABBTree
      */
     void SetLeaf(T* _item)
     {
+      //remove the children.
       DestroyChildren();
 
       m_item = _item;
 
       UpdateAABB();
+    }
+
+    /**
+     * \brief Find an item.
+     * \param [in]  _item Item to find
+     * \param [out] _node Node with the item.
+     * \return Returns true if the item was found.
+     */
+    bool Find(T* _item, Node<T>*& _node)
+    {
+      //if it has an item, check if it matches.
+      if (IsLeaf())
+      {
+        if (m_item == _item)
+        {
+          _node = this;
+          return true;
+        }
+        else { return false; }
+      }
+      //else look in the children.
+      else
+      {
+        return m_children[0]->Find(_item, _node) || m_children[1]->Find(_item, _node);
+      }
     }
 
     bool IsLeaf() const
@@ -107,6 +138,10 @@ namespace AABBTree
       }
     }
 
+    /**
+     * \brief Get a list of nodes with outdated bounds.
+     * \param [out] _invalid List of nodes that are invalid.
+     */
     void GetInvalidNodes(NodeList<T>& _invalid)
     {
       //check if the item is fully contained by the node, else add it to
@@ -123,6 +158,20 @@ namespace AABBTree
       {
         m_children[0]->GetInvalidNodes(_invalid);
         m_children[1]->GetInvalidNodes(_invalid);
+      }
+    }
+
+    /**
+     * \brief Set all cross nodes to false.
+     * Traverses the tree, reseting the crossed value of the node and children.
+     */
+    void ResetCross()
+    {
+      m_crossed = false;
+      if (!IsLeaf())
+      {
+        m_children[0]->ResetCross();
+        m_children[1]->ResetCross();
       }
     }
 
