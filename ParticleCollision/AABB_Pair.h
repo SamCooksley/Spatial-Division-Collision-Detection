@@ -5,11 +5,14 @@
 
 namespace AABBTree
 {
+  /**
+   * \brief Group two items.
+   */
   template <class T>
   struct Pair
   {
-  public:
-    T * a;
+   public:
+    T* a;
     T* b;
   };
 
