@@ -21,6 +21,7 @@ d:\users\sam\documents\projects\programming\collision\spatial-division-collision
   CollisionManager.cpp
   Collider.cpp
   CM_QuadTree.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\cm_quadtree.cpp(18): warning C4573: the usage of 'CollisionManager::Collide' requires the compiler to capture 'this' but the current default capture mode does not allow it
   CM_AABBTree.cpp
   Circle.cpp
 d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data

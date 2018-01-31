@@ -62,10 +62,9 @@ namespace QuadTree
      * \brief Perform an operation of each item in a bucket.
      * \param [in] _op Operation to perform each combination of two items in a bucket. Format: void(T*, T*).
      */
-    template<typename U>
-    void CheckCollision(U& _op)
+    void CheckCollision(typename Node<T>::ItemPairFunc _operation)
     {
-      m_root->CheckCollision(_op);
+      m_root->CheckCollision(_operation);
     }
 
    private:

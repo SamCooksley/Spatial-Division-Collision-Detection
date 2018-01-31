@@ -14,14 +14,9 @@ void CM_QuadTree::Reset()
 
 void CM_QuadTree::Collide()
 {
-  //define what to do with objects in a bucket.
-  //this should not be needs as Collide is a static method.
-  auto collide = [&](Collider* _a, Collider* _b)
-  {
+  m_quadTree.CheckCollision([](Collider* _a, Collider* _b) {
     CollisionManager::Collide(*_a, *_b);
-  };
-
-  m_quadTree.CheckCollision(collide);
+  });
 }
 
 void CM_QuadTree::Draw(Renderer& _renderer)

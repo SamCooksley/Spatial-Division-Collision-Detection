@@ -12,29 +12,41 @@ namespace QuadTree
   class QuadTree;
 
   /**
-   * \brief Element in a quad tree node.
+   * \brief Element in a quad tree.
    * A leaf contains a bucket of items. Other nodes contain child nodes.
    */
   template <class T>
   class Node
   {
-    typedef std::vector<T*> ItemList;
+   public:
+    using ItemList = std::vector<T*>; //!< List of items.
+    using ItemPairFunc = void(*)(T*, T*); //!< Operation for a pair of items.
 
-  public:
+    /**
+     * \brief Constructor.
+     * \param [in] _tree   Tree the node belongs to.
+     * \param [in] _parent Parent node.
+     * \param [in] _rect   Area of the node.
+     * \param [in] _depth  Level of the node.
+     */
     Node(QuadTree<T>* _tree, Node<T>* _parent, const Rect& _rect, int _depth) :
       m_tree(_tree), m_parent(_parent), 
       m_rect(_rect), m_depth(_depth)
     { }
 
     ~Node()
-    { }
+    { } //!< Destructor.
 
     void Clear()
     {
       m_items.clear();
       RemoveDivide();
-    }
+    } //!< Remvoe children and items.
 
+    /**
+     * \brief Add an item into the node or its children.
+     * \param [in] _item Item to add.
+     */
     void Insert(T* _item)
     {
       if (!InsertInChildren(_item))
@@ -48,8 +60,10 @@ namespace QuadTree
         }
       }
     }
-    //void Remove(Item &_item);
 
+    /**
+     * \brief Get the number of items in the node and its children.
+     */
     size_t GetItemCount() const
     {
       size_t count = m_items.size();
@@ -66,8 +80,15 @@ namespace QuadTree
     bool IsLeaf() const
     {
       return m_children.empty();
-    }
+    } //!< Does the node have children?
 
+
+    /**
+     * \brief Draw the node and its children.
+     * Draws the area of the node and the bounds of the items
+     * contained within it.
+     * \param [in, out] _renderer Renderer to draw to.
+     */
     void Draw(Renderer& _renderer)
     {
       m_rect.Draw(_renderer);
@@ -85,12 +106,15 @@ namespace QuadTree
       }
     }
 
-    template<typename U>
-    void CheckCollision(U& _check)
+    /**
+     * \brief Perform an operation of each combination of items in the bucket.
+     * \param [in] _operation Operation to perform for each combination.
+     */
+    void CheckCollision(ItemPairFunc _operation)
     {
       for (auto& child : m_children)
       {
-        child->CheckCollision(_check);
+        child->CheckCollision(_operation);
       }
 
       if (m_items.empty()) { return; }
@@ -101,19 +125,26 @@ namespace QuadTree
         for (size_t j = i + 1; j < m_items.size(); ++j)
         {
           T* b = m_items[j];
-          _check(a, b);
+          _operation(a, b);
         }
       }
     }
 
    private:
+    /**
+     * \brief Divide the area of the node into multiple child nodes.
+     * The amount of divisions is dependant on the tree that owns the
+     * node.
+     */
     void Divide()
     {
+      //if has already been divided, exit.
       if (!IsLeaf()) { return; }
 
       int xCount = m_tree->m_xDivisions;
       int yCount = m_tree->m_yDivisions;
 
+      //get the size of new nodes.
       float width = m_rect.Width() / xCount;
       float height = m_rect.Height() / yCount;
 
@@ -139,9 +170,12 @@ namespace QuadTree
         }
       }
 
+      //add the items to the children.
       size_t i = 0; 
       while (i < m_items.size())
       {
+        //add the item to the child nodes, if it
+        //failed, skip the item.
         if (!PushItemDown(i))
         {
           ++i;
@@ -152,7 +186,7 @@ namespace QuadTree
     void RemoveDivide()
     {
       m_children.clear();
-    }
+    } //!< Delete all children.
 
     /**
      * \brief Add an item to the children.
@@ -161,18 +195,22 @@ namespace QuadTree
      */
     bool InsertInChildren(T* _item)
     {
+      //if it has no children, exit.
       if (IsLeaf()) { return false; }
 
       const Rect& itemRect = _item->GetAABB();
       bool inserted = false;
 
+      //check if the item is inside any of the nodes.
       for (auto& node : m_children)
       {
         if (Rect::Intersects(node->m_rect, itemRect))
         {
           node->Insert(_item);
           inserted = true;
+          
 
+          //TODO: profile this to see if it is an improvement.
           //if the node fully contains the item, it can't be in 
           //any of the other nodes, so exit the loop.
           if (node->m_rect.Contains(itemRect))
@@ -210,13 +248,13 @@ namespace QuadTree
      */
     bool PushItemUp(int _index)
     {
+      //if there is no parent to push to, exit.
       if (m_parent == nullptr) { return false; }
 
       T* item = m_items[_index];
 
-      RemoveItem(_index);
       m_parent->m_items.emplace_back(item);
-      //m_parent->Insert(item);
+      RemoveItem(_index);
       return true;
     }
 
@@ -225,15 +263,15 @@ namespace QuadTree
       m_items.erase(m_items.begin() + _index);
     } //!< Clear an item from the bucket.
 
-    QuadTree<T>* m_tree; 
-    Node<T>* m_parent;
+    QuadTree<T>* m_tree; //!< Tree the node belongs to.
+    Node<T>* m_parent; //!< Parent node.
 
-    std::vector<std::unique_ptr<Node>> m_children;
+    std::vector<std::unique_ptr<Node>> m_children; //!< Child nodes.
 
-    ItemList m_items;
+    ItemList m_items; //!< List of items in the bucket.
 
-    Rect m_rect;
-    int m_depth;
+    Rect m_rect; //!< Area that the node covers.
+    int m_depth; //!< Level of the node in the tree.
   };
 }
 
