@@ -67,14 +67,7 @@ bool Game::Init()
   auto font = std::make_shared<Font>();
   font->Load("resources/fonts/arial.ttf", 24);
 
-  m_timeText = std::make_unique<Text>();
-  m_timeText->SetFont(font);
-
-  m_minText = std::make_unique<Text>();
-  m_minText->SetFont(font);
-
-  m_maxText = std::make_unique<Text>();
-  m_maxText->SetFont(font);
+  m_profiler = std::make_unique<Profiler>(font);
 
   m_spawnRect = Rect(100, 100, 700, 500);
   
@@ -85,7 +78,6 @@ bool Game::Init()
 
   AddPolygons(2);
   AddCircles(200);
-
 
   m_current = &m_brute;
 
@@ -114,9 +106,8 @@ void Game::Loop()
 
 void Game::Exit()
 {
-  m_timeText.release();
-  m_minText.release();
-  m_maxText.release();
+  m_profiler.release();
+
   //destroy the window and renderer
   m_renderer.Destroy();
   m_window.Destroy();
@@ -150,6 +141,7 @@ void Game::HandleEvents()
           case SDL_SCANCODE_1: { m_current = &m_brute; break; }
           case SDL_SCANCODE_2: { m_current = &m_quad;  break; }
           case SDL_SCANCODE_3: { m_current = &m_aabb;  break; }
+          case SDL_SCANCODE_R: { m_profiler->Reset(); break; }
         }
         break;
       }
@@ -159,22 +151,7 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-  std::stringstream ss;
-  float fps = m_deltaTime == .0f ? 10000.0f : 1.f / m_deltaTime;
-  ss << "FPS: " << fps << " (" << m_deltaTime << "ms)";
-  m_timeText->SetText(ss.str());
-
-  ss.str(std::string());
-  static float min = fps, max = fps;
-  min = std::min(min, fps);
-  max = std::max(max, fps);
-  ss << "Min: " << min;
-  m_minText->SetText(ss.str());
-
-  ss.str(std::string());
-
-  ss << "Max: " << max;
-  m_maxText->SetText(ss.str());
+  m_profiler->Update(m_deltaTime);
 
   m_current->Reset();
 
@@ -206,9 +183,7 @@ void Game::Render()
     c->Draw(m_renderer);
   }
 
-  m_timeText->Draw(m_renderer, 10, 10);
-  m_minText->Draw(m_renderer, 10, 40);
-  m_maxText->Draw(m_renderer, 10, 70);
+  m_profiler->Render(m_renderer);
 
   //Display to the window.
   m_renderer.Render(); 
