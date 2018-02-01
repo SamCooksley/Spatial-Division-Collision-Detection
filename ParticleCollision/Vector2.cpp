@@ -1,5 +1,7 @@
 #include "Maths.h"
 
+#include <stdexcept>
+
 Vector2::Vector2() :
   x(.0f), y(.0f)
 { }
@@ -31,7 +33,7 @@ Vector2 Vector2::Normalized() const
   float m = Magnitude();
   if (m == .0f)
   {
-    throw;
+    throw std::overflow_error("Magnitude is 0");
   }
   return *this * (1.f / m);
 }
