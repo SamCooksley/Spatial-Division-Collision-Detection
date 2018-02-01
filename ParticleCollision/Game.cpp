@@ -13,6 +13,8 @@
 #include "Sprite.h"
 #include "Maths.h"
 
+#include "Timer.h"
+
 int Game::Run()
 {
   bool success = Init();
@@ -62,6 +64,18 @@ bool Game::Init()
 
   m_renderer.SetClearColour(240, 240, 240);
 
+  auto font = std::make_shared<Font>();
+  font->Load("resources/fonts/arial.ttf", 24);
+
+  m_timeText = std::make_unique<Text>();
+  m_timeText->SetFont(font);
+
+  m_minText = std::make_unique<Text>();
+  m_minText->SetFont(font);
+
+  m_maxText = std::make_unique<Text>();
+  m_maxText->SetFont(font);
+
   m_spawnRect = Rect(100, 100, 700, 500);
   
   AddPlane(Vector2(100, 600/2), Vector2( 1.0f,  0.0f), 400);
@@ -70,7 +84,7 @@ bool Game::Init()
   AddPlane(Vector2(800/2, 500), Vector2( 0.0f, -1.0f), 600);
 
   AddPolygons(2);
-  AddCircles(50);
+  AddCircles(200);
 
 
   m_current = &m_brute;
@@ -80,26 +94,17 @@ bool Game::Init()
 
 void Game::Loop()
 {
-  //store the time of the last frame
-  Uint32 prevTime = SDL_GetTicks();
-
-  //store the display fps of last frame
-  float prevFPS = 1;
-
   m_deltaTime = 0;
   m_done = false;
+
+  Timer timer;
 
   //repeat until the program should end
   while (!m_done)
   {
     //calculate delta time
-    //get the current time
-    Uint32 time = SDL_GetTicks();
-    //get the time difference from the previous frame and convert to seconds
-    m_deltaTime = (time - prevTime) / 1000.0f;
-    //prevent division by 0
-    m_deltaTime = (m_deltaTime <= 0.0f? 0.001f: m_deltaTime); 
-    prevTime = time; //update the previous time
+    m_deltaTime = timer.Seconds();
+    timer.Reset();
 
     HandleEvents();
     Update();
@@ -109,6 +114,9 @@ void Game::Loop()
 
 void Game::Exit()
 {
+  m_timeText.release();
+  m_minText.release();
+  m_maxText.release();
   //destroy the window and renderer
   m_renderer.Destroy();
   m_window.Destroy();
@@ -151,6 +159,23 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
+  std::stringstream ss;
+  float fps = m_deltaTime == .0f ? 10000.0f : 1.f / m_deltaTime;
+  ss << "FPS: " << fps << " (" << m_deltaTime << "ms)";
+  m_timeText->SetText(ss.str());
+
+  ss.str(std::string());
+  static float min = fps, max = fps;
+  min = std::min(min, fps);
+  max = std::max(max, fps);
+  ss << "Min: " << min;
+  m_minText->SetText(ss.str());
+
+  ss.str(std::string());
+
+  ss << "Max: " << max;
+  m_maxText->SetText(ss.str());
+
   m_current->Reset();
 
   //update all the particles
@@ -180,7 +205,11 @@ void Game::Render()
   {
     c->Draw(m_renderer);
   }
-  
+
+  m_timeText->Draw(m_renderer, 10, 10);
+  m_minText->Draw(m_renderer, 10, 40);
+  m_maxText->Draw(m_renderer, 10, 70);
+
   //Display to the window.
   m_renderer.Render(); 
 }
@@ -228,7 +257,7 @@ void Game::AddCircles(int _count)
     );
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;
-    auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 1);
+    auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 10);
     
     m_colliders.emplace_back(circle);
     m_aabb.Add(circle);

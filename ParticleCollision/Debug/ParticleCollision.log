@@ -1,29 +1,3 @@
-﻿  Window.cpp
-  Vector2.cpp
-  Texture.cpp
-  Text.cpp
-  Sprite.cpp
-  SDL_Functions.cpp
-  Renderer.cpp
-  Rect.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\rect.cpp(86): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\rect.cpp(84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\rect.cpp(85): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  Range.cpp
-  Polygon.cpp
-  Plane.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\plane.cpp(20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Main.cpp
-  Game.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\game.cpp(32): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Font.cpp
-  CM_BruteForce.cpp
-  CollisionManager.cpp
-  Collider.cpp
-  CM_QuadTree.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\cm_quadtree.cpp(18): warning C4573: the usage of 'CollisionManager::Collide' requires the compiler to capture 'this' but the current default capture mode does not allow it
-  CM_AABBTree.cpp
-  Circle.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\circle.cpp(19): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+﻿  Game.cpp
+d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\game.cpp(34): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   ParticleCollision.vcxproj -> D:\Users\Sam\Documents\Projects\Programming\Collision\Spatial-Division-Collision-Detection\Debug\ParticleCollision.exe

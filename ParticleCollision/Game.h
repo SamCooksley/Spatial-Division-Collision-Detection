@@ -6,6 +6,8 @@
 #include "Window.h"
 #include "Renderer.h"
 
+#include "Text.h"
+
 #include "CM_BruteForce.h"
 #include "CM_QuadTree.h"
 #include "CM_AABBTree.h"
@@ -57,6 +59,10 @@ class Game
   std::vector<std::shared_ptr<Collider>> m_colliders; //!< List of objects in the scene.
 
   Rect m_spawnRect; //!< Area to spawn objects.
+
+  std::unique_ptr<Text> m_timeText;
+  std::unique_ptr<Text> m_minText;
+  std::unique_ptr<Text> m_maxText;
 };
 
 #endif //_GAME_H_

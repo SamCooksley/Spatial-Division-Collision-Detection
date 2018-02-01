@@ -99,6 +99,9 @@
     <ClCompile Include="CM_AABBTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="AABB_Node.h">
       <Filter>Header Files\AABBTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

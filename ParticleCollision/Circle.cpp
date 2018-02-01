@@ -9,9 +9,9 @@ Circle::Circle(const Vector2& _position, const Vector2& _velocity, float _radius
   float area = PI * (m_radius * m_radius);
   m_invMass = 1.f / area;
 
-	Range x = MinMaxOnAxis(Vector2(1, 0));
-	Range y = MinMaxOnAxis(Vector2(0, 1));
-	m_aabb = Rect(x.min, y.min, x.max, y.max);
+  Range x = MinMaxOnAxis(Vector2(1, 0));
+  Range y = MinMaxOnAxis(Vector2(0, 1));
+  m_aabb = Rect(x.min, y.min, x.max, y.max);
 }
 
 void Circle::Draw(Renderer& _renderer)
