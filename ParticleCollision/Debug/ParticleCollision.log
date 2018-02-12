@@ -1,8 +1,2 @@
-﻿  Profiler.cpp
-  Game.cpp
-d:\users\sam\documents\projects\programming\collision\spatial-division-collision-detection\particlecollision\game.cpp(34): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
-  Main.cpp
-  Generating Code...
+﻿  SDL_Functions.cpp
   ParticleCollision.vcxproj -> D:\Users\Sam\Documents\Projects\Programming\Collision\Spatial-Division-Collision-Detection\Debug\ParticleCollision.exe

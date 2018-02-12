@@ -76,7 +76,7 @@ bool Game::Init()
   AddPlane(Vector2(800/2, 100), Vector2( 0.0f,  1.0f), 600);
   AddPlane(Vector2(800/2, 500), Vector2( 0.0f, -1.0f), 600);
 
-  AddPolygons(2);
+  //AddPolygons(50);
   AddCircles(200);
 
   m_current = &m_brute;

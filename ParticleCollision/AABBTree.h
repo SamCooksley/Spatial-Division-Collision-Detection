@@ -97,7 +97,9 @@ namespace AABBTree
 
           node->UpdateAABB();
           //reinsert the node to the tree.
+          auto r = m_root;
           InsertNode(node, m_root);
+          m_root = r;
         }
       }
     }
@@ -194,7 +196,7 @@ namespace AABBTree
       if (p->m_parent != nullptr)
       {
         sib->m_parent = p->m_parent;
-        p->m_parent->m_children[p->GetChildIndex()] = sib;
+        sib->m_parent->m_children[p->GetChildIndex()] = sib;
         sib->m_parent->UpdateAABB();
       }
       else

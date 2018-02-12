@@ -4,35 +4,42 @@ namespace SDL
 {
   void DrawCircle(Renderer& _renderer, int _x, int _y, int _radius)
   {
-    int x = _radius;
-    int y = 0;
-    int err = 0;
+    int x = _radius - 1, y = 0;
+	int dx = 1, dy = 1;
+    int err = dx - (_radius << 1);
+	SDL_Renderer* renderer = _renderer.Get();
+
+	SDL_Point points[8];
 
     while (x >= y)
     {
-        DrawPoint(_renderer, _x + x, _y + y);
-        DrawPoint(_renderer, _x + y, _y + x);
-        DrawPoint(_renderer, _x - y, _y + x);
-        DrawPoint(_renderer, _x - x, _y + y);
-        DrawPoint(_renderer, _x - x, _y - y);
-        DrawPoint(_renderer, _x - y, _y - x);
-        DrawPoint(_renderer, _x + y, _y - x);
-        DrawPoint(_renderer, _x + x, _y - y);
+		points[0] = { _x + x, _y + y };
+		points[1] = { _x + y, _y + x };
+		points[2] = { _x - y, _y + x };
+		points[3] = { _x - x, _y + y };
+		points[4] = { _x - x, _y - y };
+		points[5] = { _x - y, _y - x };
+		points[6] = { _x + y, _y - x };
+		points[7] = { _x + x, _y - y };
 
-        y += 1;
+		SDL_RenderDrawPoints(renderer, points, 8);
+
         if (err <= 0)
         {
-            err += 2*y + 1;
+			++y;
+			err += dy;
+			dy += 2;
         }
         if (err > 0)
         {
-            x -= 1;
-            err -= 2*x + 1;
+			--x;
+			dx += 2;
+			err += dx - (_radius << 1);
         }
     }
   }
 
-  void DrawPoint(Renderer &_renderer, int _x, int _y)
+  void DrawPoint(Renderer& _renderer, int _x, int _y)
   {
     SDL_RenderDrawPoint(_renderer.Get(), _x, _y);
   }
