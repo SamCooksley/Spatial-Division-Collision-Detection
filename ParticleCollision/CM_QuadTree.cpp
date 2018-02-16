@@ -14,9 +14,13 @@ void CM_QuadTree::Reset()
 
 void CM_QuadTree::Collide()
 {
-  m_quadTree.CheckCollision([](Collider* _a, Collider* _b) {
-    CollisionManager::Collide(*_a, *_b);
-  });
+  QuadTree::PairList<Collider> pairs;
+  m_quadTree.GetPairs(pairs);
+
+  for (auto& pair : pairs)
+  {
+    CollisionManager::Collide(*pair.a, *pair.b);
+  }
 }
 
 void CM_QuadTree::Draw(Renderer& _renderer)
