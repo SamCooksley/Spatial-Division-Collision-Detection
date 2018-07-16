@@ -38,7 +38,6 @@ namespace SDL
     }
 
     SDL_RenderDrawPoints(_renderer.Get(), &points[0], points.size());
-
   }
 
   void DrawPoint(Renderer& _renderer, int _x, int _y)

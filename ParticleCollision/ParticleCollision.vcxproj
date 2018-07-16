@@ -120,6 +120,7 @@
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTree_IItem.h" />
     <ClInclude Include="QuadTree_Node.h" />
+    <ClInclude Include="QuadTree_Pair.h" />
     <ClInclude Include="Range.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Renderer.h" />

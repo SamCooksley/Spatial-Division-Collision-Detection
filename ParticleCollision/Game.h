@@ -45,6 +45,8 @@ class Game
   void Update(); //!< Run the simulation.
   void Render(); //!< Draw all the objects.
 
+  void ResetProfiler(); //!< Reset profiler if it exists.
+
   bool m_done; //!< Should the application quit.
 
   float m_deltaTime; //!< Time taken for the previous frame to be completed.

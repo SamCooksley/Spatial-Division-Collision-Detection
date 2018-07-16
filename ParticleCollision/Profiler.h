@@ -24,11 +24,15 @@ class Profiler
   float m_min; //!< Minimum fps.
   float m_max; //!< Maximum fps.
 
+  float m_average; //!< Average fps.
+
   Text m_fpsText; //!< Current fps text to display.
   Text m_minText; //!< Minimum fps text to display.
   Text m_maxText; //!< Maximum fps text to display.
+  Text m_avgText; //!< Average fps text to display.
 
-  Timer m_updateTimer; //!< Timer to update 
+  Timer m_updateTimer; //!< Timer to update.
+  unsigned int m_frames; //!< number of frames since last reset.
 };
 
 #endif //_PROFILER_H_

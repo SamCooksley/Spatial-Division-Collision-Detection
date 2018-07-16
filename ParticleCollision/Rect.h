@@ -12,8 +12,8 @@
 class Rect
 {
  public:
-   Vector2 min; //!< minimum corner of the rectangle (top left).
-   Vector2 max; //!< maximum corner or the rectang;e (bottom right).
+  Vector2 min; //!< minimum corner of the rectangle (top left).
+  Vector2 max; //!< maximum corner or the rectang;e (bottom right).
 
   Rect(); //!< default Constructor.
   /**

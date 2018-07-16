@@ -76,10 +76,10 @@ bool Game::Init()
   AddPlane(Vector2(800/2, 100), Vector2( 0.0f,  1.0f), 600);
   AddPlane(Vector2(800/2, 500), Vector2( 0.0f, -1.0f), 600);
 
-  //AddPolygons(50);
-  AddCircles(200);
+  AddPolygons(25);
+  AddCircles(100);
 
-  m_current = &m_brute;
+  m_current = &m_quad;
 
   return true;
 }
@@ -138,10 +138,29 @@ void Game::HandleEvents()
         switch (e.key.keysym.scancode)
         {
           case SDL_SCANCODE_ESCAPE: { Quit(); break; }
-          case SDL_SCANCODE_1: { m_current = &m_brute; break; }
-          case SDL_SCANCODE_2: { m_current = &m_quad;  break; }
-          case SDL_SCANCODE_3: { m_current = &m_aabb;  break; }
-          case SDL_SCANCODE_R: { m_profiler->Reset(); break; }
+          case SDL_SCANCODE_1: 
+          { 
+            m_current = &m_brute; 
+            ResetProfiler(); 
+            break; 
+          }
+          case SDL_SCANCODE_2:
+          { 
+            m_current = &m_quad;
+            ResetProfiler(); 
+            break; 
+          }
+          case SDL_SCANCODE_3: 
+          {
+            m_current = &m_aabb; 
+            ResetProfiler();
+            break; 
+          }
+          case SDL_SCANCODE_R: 
+          {
+            ResetProfiler(); 
+            break; 
+          }
         }
         break;
       }
@@ -232,7 +251,7 @@ void Game::AddCircles(int _count)
     );
     Vector2 vel(rand() % 20 / 5.0f - 2, rand() % 20 / 5.0f - 2); 
     vel *= 30.0f;
-    auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 10);
+    auto circle = std::make_shared<Circle>(pos, vel, 2.f + rand() % 2);
     
     m_colliders.emplace_back(circle);
     m_aabb.Add(circle);
@@ -244,4 +263,12 @@ void Game::AddPlane(const Vector2 &_position, const Vector2 &_normal, float _wid
   auto p = std::make_shared<Plane>(_position, _normal, _width);
   m_colliders.emplace_back(p);
   m_aabb.Add(p);
+}
+
+void Game::ResetProfiler()
+{
+  if (m_profiler)
+  {
+    m_profiler->Reset();
+  }
 }

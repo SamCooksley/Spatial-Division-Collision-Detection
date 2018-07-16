@@ -197,5 +197,8 @@
     <ClInclude Include="Profiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTree_Pair.h">
+      <Filter>Header Files\QuadTree</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

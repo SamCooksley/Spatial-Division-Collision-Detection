@@ -19,7 +19,7 @@ class CM_QuadTree : public CollisionManager
   void Insert(const std::shared_ptr<Collider>& _collider) override;
 
  private:
-   QuadTree::QuadTree<Collider> m_quadTree;
+   QuadTree::QuadTree<Collider, 2, 2> m_quadTree;
 };
 
 #endif //_CM_QUADTREE_H_
